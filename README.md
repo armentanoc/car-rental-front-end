@@ -18,9 +18,7 @@ Bem-vindo ao **Car Rental App**! 😎
 
 3. **Agora, é só abrir seu navegador e acessar:**
 
-    ```bash
     http://localhost:3000
-    ```
 
 A página vai recarregar automaticamente quando fizer mudanças. 
 
@@ -34,7 +32,5 @@ Quando você rodar o BackEnd, um usuário com perfil administrador será criado 
 ## BackEnd
 
 Você pode conferir o código do backend aqui:
-
-```bash
 https://github.com/armentanoc/car-rental-back-end
-```
+
