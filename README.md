@@ -1,22 +1,40 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/0oZ3JrzO)
+# 🚗 Car Rental App 
 
-## Instruções
+Bem-vindo ao **Car Rental App**! 😎
 
-Dentro da pasta do projeto (no VS Code ou no terminal), instale as dependências:
+## 🚀 Primeiros Passos 
 
-### `npm install`
+1. **Instale as dependências** 
 
-Então, rode o programa:
+   ```bash
+   npm install
+   ```
 
-### `npm start`
+2. **Dê a partida no projet** 
 
-Abra [http://localhost:3000](http://localhost:3000) para visualizar no browser.
+    ```bash
+    npm start
+    ```
+
+3. **Agora, é só abrir seu navegador e acessar:**
+
+    ```bash
+    http://localhost:3000
+    ```
 
 A página vai recarregar automaticamente quando fizer mudanças. 
 
-## Admin Base
+## 🔑 Admin Base (o VIP da parada)
 
-```
-username: admin
-password: admin
+Quando você rodar o BackEnd, um usuário admin será criado automaticamente:
+
+- Usuário: `admin`
+- Senha: `admin`
+
+## BackEnd
+
+Você pode conferir o código do backend aqui:
+
+```bash
+https://github.com/armentanoc/car-rental-back-end
 ```

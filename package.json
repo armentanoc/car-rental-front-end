@@ -1,13 +1,13 @@
 {
-  "name": "trabalho-arq-de-software",
+  "name": "car-rental-front-end",
   "version": "1.0.0",
-  "description": "projeto de alocação de espaço",
+  "description": "projeto de aluguel de veículos",
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "ellen",
+  "author": "Ana Carolina Armentano - @armentanoc",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.7.7",
@@ -15,7 +15,7 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.2",
     "react-scripts": "^5.0.1",
-    "trabalho-arq-de-software": "file:"
+    "car-rental-front-end": "file:"
   },
   "browserslist": {
     "production": [
