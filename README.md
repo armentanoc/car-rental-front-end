@@ -24,9 +24,9 @@ Bem-vindo ao **Car Rental App**! 😎
 
 A página vai recarregar automaticamente quando fizer mudanças. 
 
-## 🔑 Admin Base (o VIP da parada)
+## 🔑 Admin Base 
 
-Quando você rodar o BackEnd, um usuário admin será criado automaticamente:
+Quando você rodar o BackEnd, um usuário com perfil administrador será criado automaticamente:
 
 - Usuário: `admin`
 - Senha: `admin`
