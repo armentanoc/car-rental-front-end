@@ -1,0 +1,134 @@
+/* src/styles/TeacherDashboard.css */
+
+/* Ajustes gerais */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f4f8; /* Cor de fundo clara */
+    margin: 0;
+    padding: 0;
+}
+
+/* Painel do Professor */
+.teacher-dashboard {
+    max-width: 900px; /* Largura máxima do painel */
+    margin: 40px auto; /* Centraliza o painel */
+    padding: 30px;
+    background-color: #e0e0e0; /* Fundo levemente cinza */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative; /* Para posicionar o botão de logout */
+}
+
+/* Títulos */
+h2 {
+    text-align: center;
+    color: #002060; /* Azul marinho */
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+h3 {
+    color: #002060; /* Azul marinho */
+    border-bottom: 2px solid #002060;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* Reduzir espaçamento entre os elementos */
+}
+
+/* Campos do formulário */
+input, select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto; /* Centraliza os campos */
+}
+
+input:focus, select:focus {
+    border-color: #002060; /* Mudar a borda ao focar */
+    outline: none;
+}
+
+/* Estilização do botão */
+button {
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: #002060; /* Azul marinho */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    max-width: 350px;
+    margin: 10px auto; /* Centraliza o botão */
+}
+
+button:hover {
+    background-color: #004080; /* Azul marinho mais escuro */
+}
+
+/* Lista de solicitações */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #ffffff; /* Fundo branco */
+    color: #002060; /* Azul marinho */
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    border: 1px solid #002060; /* Borda azul marinho */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de logout */
+.logout-button {
+    position: absolute; /* Posicionamento relativo ao contêiner pai */
+    top: 10px;
+    right: 10px;
+    background-color: #f44336; /* Vermelho */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-button:hover {
+    background-color: #d32f2f; /* Vermelho mais escuro */
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .teacher-dashboard {
+        padding: 20px; /* Reduzir o preenchimento em telas pequenas */
+    }
+
+    h2 {
+        font-size: 1.5em; /* Diminuir o tamanho do título */
+    }
+
+    input, select, button {
+        font-size: 14px; /* Diminuir o tamanho da fonte */
+    }
+}
+.botoes-div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+  }
+  
