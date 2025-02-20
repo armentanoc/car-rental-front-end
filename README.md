@@ -10,7 +10,7 @@ Bem-vindo ao **Car Rental App**! 😎
    npm install
    ```
 
-2. **Dê a partida no projet** 
+2. **Dê a partida no projeto** 
 
     ```bash
     npm start
