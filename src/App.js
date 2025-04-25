@@ -33,7 +33,7 @@ function App() {
           /> */}
           <Route 
             path="/admin-dashboard" 
-            element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ADMINISTRADOR']} />} 
+            element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ADMIN']} />} 
           />
           {/* <Route 
             path="/request-space" 
@@ -53,7 +53,7 @@ function App() {
           /> */}
           <Route 
             path="/manage-users" 
-            element={<PrivateRoute element={<ManageUsers />} allowedRoles={['ADMINISTRADOR']} />} 
+            element={<PrivateRoute element={<ManageUsers />} allowedRoles={['ADMIN']} />} 
           />
         </Routes>
       </AuthProvider>
