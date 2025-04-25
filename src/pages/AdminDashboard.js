@@ -26,27 +26,29 @@ const fetchUsers = async () => {
   }
 };
 
-const fetchSpaces = async () => {
-  try {
-    const response = await fetch('http://localhost:8090/locations', {
-      method: 'GET',
-      headers: {
-        'Accept': '*/*',
-      },
-    });
+//Fetch vehicles
 
-    if (!response.ok) {
-      var responseLog = await response.json();
-      throw new Error('Erro ao buscar espaços' + responseLog.message);
-    }
+// const fetchSpaces = async () => {
+//   try {
+//     const response = await fetch('http://localhost:8090/locations', {
+//       method: 'GET',
+//       headers: {
+//         'Accept': '*/*',
+//       },
+//     });
 
-    const spaces = await response.json();
-    return spaces;
-  } catch (error) {
-    console.error(error);
-    return []; // Retorna um array vazio em caso de erro
-  }
-};
+//     if (!response.ok) {
+//       var responseLog = await response.json();
+//       throw new Error('Erro ao buscar espaços' + responseLog.message);
+//     }
+
+//     const spaces = await response.json();
+//     return spaces;
+//   } catch (error) {
+//     console.error(error);
+//     return []; // Retorna um array vazio em caso de erro
+//   }
+// };
 
 const removeUser = async (userId, adminId) => {
   try {
@@ -76,31 +78,32 @@ const removeUser = async (userId, adminId) => {
   }
 };
 
-const removeLocation = async (locationId, adminId) => {
-  // Função para remover local
-  try {
-    const response = await fetch(`http://localhost:8090/locations/${locationId}`, {
-      method: 'POST',
-      headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ adminId }),
-    });
+// // remove vehicle
+// const removeLocation = async (locationId, adminId) => {
+//   // Função para remover local
+//   try {
+//     const response = await fetch(`http://localhost:8090/locations/${locationId}`, {
+//       method: 'POST',
+//       headers: {
+//         'Accept': '*/*',
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({ adminId }),
+//     });
 
-    var responseLog = await response.json();
+//     var responseLog = await response.json();
 
-    if (!response.ok) {
-      throw new Error(responseLog.message);
-    }
+//     if (!response.ok) {
+//       throw new Error(responseLog.message);
+//     }
 
-    return locationId; // Retorna o locationId se a remoção for bem-sucedida
-  } catch (error) {
-    console.error(error);
-    alert('Erro: ' + error.message); // Notifica o usuário sobre o erro
-    return null; // Retorna null em caso de erro
-  }
-};
+//     return locationId; // Retorna o locationId se a remoção for bem-sucedida
+//   } catch (error) {
+//     console.error(error);
+//     alert('Erro: ' + error.message); // Notifica o usuário sobre o erro
+//     return null; // Retorna null em caso de erro
+//   }
+// };
 
 const updateUser = async (userId, userData, adminId) => {
   
@@ -140,10 +143,10 @@ const updateUser = async (userId, userData, adminId) => {
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
-  const [spaces, setSpaces] = useState([]);
+  // const [spaces, setSpaces] = useState([]);
   const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'PROFESSOR' });
-  const [newSpace, setNewSpace] = useState({ name: '', capacity: '', location: '', resources: '', locationType: 'SALA' });
-  const [editSpaceMode, setEditSpaceMode] = useState(false);
+  // const [newSpace, setNewSpace] = useState({ name: '', capacity: '', location: '', resources: '', locationType: 'SALA' });
+  // const [editSpaceMode, setEditSpaceMode] = useState(false);
   const [editUserMode, setEditUserMode] = useState(false);
   const { user, register, logout } = useAuth();
   
@@ -210,10 +213,10 @@ const AdminDashboard = () => {
 
   const loadData = async () => {
     const usersData = await fetchUsers();
-    const spacesData = await fetchSpaces();
+    // const spacesData = await fetchSpaces();
   
     setUsers(usersData);
-    setSpaces(spacesData);
+    // setSpaces(spacesData);
   };
   
   // Carregar usuários e espaços ao montar o componente
@@ -222,25 +225,25 @@ const AdminDashboard = () => {
   }, []);
 
   // Função para recarregar página após adicionar espaço
-  const handleSpaceAdded = async () => {
-    await loadData();
-  };
+  // const handleSpaceAdded = async () => {
+  //   await loadData();
+  // };
 
   // Função para recarregar página após adicionar usuário
   const handleUserAdded = async () => {
     await loadData();
   };
 
-  const handleEditSpace = (space) => {
-    setNewSpace(space);
-    setEditSpaceMode(true);
-  };
+  // const handleEditSpace = (space) => {
+  //   setNewSpace(space);
+  //   setEditSpaceMode(true);
+  // };
 
-  const handleSaveSpaceEdit = async () => {
-      setNewSpace({ description: '', capacity: '', location: '', resources: '', locationType: 'SALA' });
-      setEditSpaceMode(false);
-      await loadData(); 
-  };
+  // const handleSaveSpaceEdit = async () => {
+  //     setNewSpace({ description: '', capacity: '', location: '', resources: '', locationType: 'SALA' });
+  //     setEditSpaceMode(false);
+  //     await loadData(); 
+  // };
 
   // Atualiza a função handleRemoveUser para usar a nova função removeUser
   const handleRemoveUser = async (userId) => {
@@ -252,19 +255,19 @@ const AdminDashboard = () => {
     }
   };  
 
-  const handleRemoveSpace = async (locationId) => {
-    const deletedLocationId = await removeLocation(locationId, adminId);
-    if (deletedLocationId) {
-      // Atualiza a lista de espaços, removendo o espaço deletado
-      setSpaces(spaces.filter(space => space.id !== deletedLocationId));
-      alert('Espaço removido com sucesso.');
-    }
-  };
+  // const handleRemoveSpace = async (locationId) => {
+  //   const deletedLocationId = await removeLocation(locationId, adminId);
+  //   if (deletedLocationId) {
+  //     // Atualiza a lista de espaços, removendo o espaço deletado
+  //     setSpaces(spaces.filter(space => space.id !== deletedLocationId));
+  //     alert('Espaço removido com sucesso.');
+  //   }
+  // };
 
   return (
     <div>
       <h2>Painel do Administrador</h2>
-      <p>Bem-vindo ao painel do administrador, {user.name.split(' ')[0]}! Aqui você pode gerenciar usuários e espaços físicos.</p>
+      <p>Bem-vindo ao painel do administrador, {user.name.split(' ')[0]}! Aqui você pode gerenciar usuários e veículos.</p>
 
       <button className="logout-button" onClick={handleLogout}>Logout</button>
 
@@ -298,9 +301,10 @@ const AdminDashboard = () => {
           value={newUser.role}
           onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
         >
-          <option value="PROFESSOR">Professor</option>
-          <option value="GESTOR">Gestor</option>
-          <option value="ADMINISTRADOR">Administrador</option>
+          <option value="CLIENT">Cliente</option>
+          <option value="ATTENDING">Atendimento</option>
+          <option value="MANAGER">Gerente</option>
+          <option value="ADMIN">Administrador</option>
         </select>
         {editUserMode ? (
           <button onClick={handleSaveUserEdit}>Salvar Edição</button>

@@ -7,7 +7,7 @@ const RegisterUser = ( {onUserAdded} ) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('PROFESSOR'); // Valor padrão
+  const [role, setRole] = useState('CLIENT'); // Valor padrão
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const RegisterUser = ( {onUserAdded} ) => {
     setEmail('');
     setUsername('');
     setPassword('');
-    setRole('PROFESSOR');
+    setRole('CLIENT');
   };
 
   return (
@@ -82,9 +82,10 @@ const RegisterUser = ( {onUserAdded} ) => {
           onChange={(e) => setRole(e.target.value)} 
           required
         >
-          <option value="PROFESSOR">Professor</option>
-          <option value="GESTOR">Gestor</option>
-          <option value="ADMINISTRADOR">Administrador</option>
+          <option value="CLIENT">Cliente</option>
+          <option value="ATTENDING">Atendimento</option>
+          <option value="MANAGER">Gerente</option>
+          <option value="ADMIN">Administrador</option>
         </select>
         <button type="submit">Registrar</button>
       </form>

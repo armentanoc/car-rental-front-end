@@ -10,7 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [role, setRole] = useState('Professor');
+  const [role, setRole] = useState('Cliente');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -59,9 +59,10 @@ const Register = () => {
           onChange={(e) => setRole(e.target.value)} 
           required
         >
-          <option value="Professor">Professor</option>
-          <option value="Gestor">Gestor</option>
-          <option value="Administrador">Administrador</option>
+          <option value="CLIENT">Cliente</option>
+          <option value="ATTENDING">Atendimento</option>
+          <option value="MANAGER">Gerente</option>
+          <option value="ADMIN">Administrador</option>
         </select>
         <button type="submit">Cadastrar</button>
       </form>
