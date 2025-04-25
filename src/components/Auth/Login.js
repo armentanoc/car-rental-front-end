@@ -12,13 +12,13 @@ const Login = () => {
     // Se o usuário estiver autenticado, redireciona para o painel correspondente
     if (user) {
       switch (user.role) {
-        case 'ADMINISTRADOR':
+        case 'ADMIN':
           navigate('/admin-dashboard');
           break;
-        case 'GESTOR':
-          navigate('/manager-dashboard');
-          break;
-        case 'PROFESSOR':
+        // case 'GESTOR':
+        //   navigate('/manager-dashboard');
+        //   break;
+        // case 'PROFESSOR':
         default:
           navigate('/user-dashboard');
           break;
