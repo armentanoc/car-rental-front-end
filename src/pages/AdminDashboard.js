@@ -99,10 +99,10 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [vehicleImages, setVehicleImages] = useState({});
-  const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'PROFESSOR' });
+  const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'Cliente' });
   const [newVehicle, setNewVehicle] = useState({ model: '', brand: '', color: '', year: '', licensePlate: '', chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '', status: 'ACTIVE', category: 'SUV', });
-  const [newImageUrl, setNewImageUrl] = useState('');
-  const [newImageVehicleId, setNewImageVehicleId] = useState('');
+  const [newImage, setNewImage] = useState({ url: '', vehicleId: '', description: '', });
+
   const [editUserMode, setEditUserMode] = useState(false);
   const { user, register, logout } = useAuth();
   const navigate = useNavigate();
@@ -168,44 +168,44 @@ const AdminDashboard = () => {
         method: 'GET',
         headers: { 'Accept': '*/*' },
       });
-  
+
       const data = await response.json();
-  
+
       if (Array.isArray(data)) {
         setVehicleImages((prevImages) => ({
           ...prevImages,
-          [vehicleId]: data, 
+          [vehicleId]: data,
         }));
       }
     } catch (error) {
       console.error('Error fetching vehicle images:', error);
     }
-  };  
+  };
 
   const handleAddImageUrl = async () => {
-    if (newImageUrl && newImageVehicleId) {
+    const { url, vehicleId, description } = newImage;
+    if (url && vehicleId && description) {
       const response = await fetch('http://localhost:8090/vehicle-images', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          vehicleId: newImageVehicleId,
-          url: newImageUrl,
-          description: 'Lateral esquerda',
+          vehicleId,
+          url,
+          description,
         }),
       });
-
+  
       if (response.ok) {
         alert('Imagem adicionada com sucesso!');
-        setNewImageUrl('');
-        setNewImageVehicleId('');
-        fetchVehicleImages(newImageVehicleId);
+        setNewImage({ url: '', vehicleId: '', description: '' });  // Reset form
+        fetchVehicleImages(vehicleId);  // Optionally fetch images for that vehicle
       } else {
         alert('Erro ao adicionar imagem.');
       }
     } else {
-      alert('Por favor, insira uma URL de imagem válida e ID de veículo.');
+      alert('Por favor, preencha todos os campos da imagem.');
     }
-  };
+  };  
 
   const loadData = async () => {
     const usersData = await fetchUsers();
@@ -361,6 +361,29 @@ const AdminDashboard = () => {
           <option value="SUV">SUV</option>
         </select>
         <button class="input-button" onClick={handleRegisterVehicle}>Cadastrar Veículo</button>
+      </div>
+
+      <h3>Adicionar Imagem ao Veículo</h3>
+      <div>
+        <input
+          type="text"
+          placeholder="URL da Imagem"
+          value={newImage.url}
+          onChange={(e) => setNewImage({ ...newImage, url: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="ID do Veículo"
+          value={newImage.vehicleId}
+          onChange={(e) => setNewImage({ ...newImage, vehicleId: e.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Descrição da Imagem"
+          value={newImage.description}
+          onChange={(e) => setNewImage({ ...newImage, description: e.target.value })}
+        />
+        <button className="input-button" onClick={handleAddImageUrl}>Adicionar Imagem</button>
       </div>
 
       <h3>Gestão de Veículos</h3>
