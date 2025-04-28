@@ -72,14 +72,15 @@ const removeUser = async (userId, adminId) => {
   }
 };
 
-const removeVehicle = async (vehicleId) => {
+const removeVehicle = async (vehicleId, adminId) => {
   try {
     const response = await fetch(`http://localhost:8090/vehicles/${vehicleId}`, {
-      method: 'DELETE',
+      method: 'POST',
       headers: {
         'Accept': '*/*',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
+      body: JSON.stringify({ adminId }),
     });
 
     if (!response.ok) {
@@ -152,7 +153,7 @@ const AdminDashboard = () => {
   };
 
   const handleRemoveVehicle = async (vehicleId) => {
-    const deletedVehicleId = await removeVehicle(vehicleId);
+    const deletedVehicleId = await removeVehicle(vehicleId, adminId);
     if (deletedVehicleId) {
       setVehicles(vehicles.filter(vehicle => vehicle.vehicleId !== deletedVehicleId));
       alert('Veículo removido com sucesso.');
