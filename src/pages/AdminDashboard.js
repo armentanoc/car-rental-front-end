@@ -95,11 +95,35 @@ const removeVehicle = async (vehicleId, adminId) => {
   }
 };
 
+const removeImage = async (imageId) => {
+  try {
+    const response = await fetch(`http://localhost:8090/vehicle-images/${imageId}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': '*/*',
+      },
+    });
+
+    const responseLog = await response.json();
+    console.log(responseLog.data);
+
+    if (!response.ok) {
+      throw new Error('Erro ao remover a imagem');
+    }
+
+    return imageId;
+  } catch (error) {
+    console.error(error);
+    alert('Erro ao remover a imagem: ' + error.message);
+    return null;
+  }
+};
+
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [vehicleImages, setVehicleImages] = useState({});
-  const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'Cliente' });
+  const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'CLIENT' });
   const [newVehicle, setNewVehicle] = useState({ model: '', brand: '', color: '', year: '', licensePlate: '', chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '', status: 'ACTIVE', category: 'SUV', });
   const [newImage, setNewImage] = useState({ url: '', vehicleId: '', description: '', });
 
@@ -162,6 +186,20 @@ const AdminDashboard = () => {
     }
   };
 
+  const handleRemoveImage = async (imageId, vehicleId) => {
+    const deletedImageId = await removeImage(imageId);
+    if (deletedImageId) {
+      setVehicleImages(prevImages => {
+        const updatedImages = { ...prevImages };
+        updatedImages[vehicleId] = updatedImages[vehicleId].filter(
+          image => image.imageId !== imageId
+        );
+        return updatedImages;
+      });
+      alert('Imagem removida com sucesso!');
+    }
+  };
+
   const fetchVehicleImages = async (vehicleId) => {
     try {
       const response = await fetch(`http://localhost:8090/vehicle-images/vehicle/${vehicleId}`, {
@@ -184,10 +222,19 @@ const AdminDashboard = () => {
 
   const handleAddImageUrl = async () => {
     const { url, vehicleId, description } = newImage;
-    if (url && vehicleId && description) {
+  
+    if (!url || !vehicleId || !description) {
+      alert('Por favor, preencha todos os campos da imagem.');
+      return;
+    }
+  
+    try {
       const response = await fetch('http://localhost:8090/vehicle-images', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': '*/*',
+        },
         body: JSON.stringify({
           vehicleId,
           url,
@@ -197,15 +244,18 @@ const AdminDashboard = () => {
   
       if (response.ok) {
         alert('Imagem adicionada com sucesso!');
-        setNewImage({ url: '', vehicleId: '', description: '' });  // Reset form
-        fetchVehicleImages(vehicleId);  // Optionally fetch images for that vehicle
+        setNewImage({ url: '', vehicleId: '', description: '' });  
+        fetchVehicleImages(vehicleId);  
       } else {
-        alert('Erro ao adicionar imagem.');
+        const errorData = await response.json();
+        alert(`Erro ao adicionar imagem: ${errorData.message || 'Erro desconhecido'}`);
       }
-    } else {
-      alert('Por favor, preencha todos os campos da imagem.');
+    } catch (error) {
+      console.error('Erro ao adicionar imagem:', error);
+      alert('Erro ao adicionar imagem.');
     }
-  };  
+  };
+  
 
   const loadData = async () => {
     const usersData = await fetchUsers();
@@ -422,7 +472,21 @@ const AdminDashboard = () => {
                 <td>{vehicle.status}</td>
                 <td>
                   {vehicleImages[vehicle.vehicleId]?.map((image, index) => (
-                    <div key={index}>{image.url}</div>
+                    <div key={index} style={{ marginBottom: '20px' }}>
+                      <img
+                        src={image.url}
+                        alt={image.description}
+                        style={{ width: '100px', height: '100px', objectFit: 'cover' }}
+                      />
+                      <br />
+                      <strong>URL:</strong> {image.url}
+                      <br />
+                      <strong>Descrição:</strong> {image.description}
+                      <br />
+                      <strong>ID:</strong> {image.imageId}
+                      <br />
+                      <button onClick={() => handleRemoveImage(image.imageId, image.vehicleId)}>Remover</button>
+                    </div>
                   ))}
                 </td>
                 <td>
