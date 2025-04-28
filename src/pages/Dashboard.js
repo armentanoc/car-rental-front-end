@@ -19,12 +19,9 @@ const Dashboard = () => {
         case 'admin':
           navigate('/admin-dashboard');
           break;
-        // case 'manager':
-        //   navigate('/manager-dashboard');
-        //   break;
-        // case 'teacher':
+        case 'client':
         default:
-          navigate('/user-dashboard');
+          navigate('/client-dashboard');
           break;
       }
     }
@@ -37,12 +34,9 @@ const Dashboard = () => {
       <p>Bem-vindo ao sistema de alocação de espaço físico!</p>
       <nav>
         <ul>
-          {/* <li>
-            <Link to="/user-dashboard">Painel do Professor</Link>
-          </li>
           <li>
-            <Link to="/manager-dashboard">Painel do Gestor</Link>
-          </li> */}
+            <Link to="/client-dashboard">Painel do Cliente</Link>
+          </li> 
           <li>
             <Link to="/admin-dashboard">Painel do Administrador</Link>
           </li>

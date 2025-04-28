@@ -15,8 +15,7 @@ const PrivateRoute = ({ element, allowedRoles }) => {
     // Se o usuário não tiver permissão, redireciona para a página correspondente ao seu role
     const roleRedirects = {
       ADMIN: "/admin-dashboard",
-      // GESTOR: "/manager-dashboard",
-      // PROFESSOR: "/user-dashboard",
+      CLIENT: "/client-dashboard",
     };
 
     return <Navigate to={roleRedirects[user.role] || "/login"} />;
