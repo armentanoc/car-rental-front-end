@@ -98,9 +98,11 @@ const removeVehicle = async (vehicleId, adminId) => {
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [vehicleImages, setVehicleImages] = useState({});
   const [newUser, setNewUser] = useState({ name: '', email: '', username: '', password: '', role: 'PROFESSOR' });
   const [newVehicle, setNewVehicle] = useState({ model: '', brand: '', color: '', year: '', licensePlate: '', chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '', status: 'ACTIVE', category: 'SUV', });
-
+  const [newImageUrl, setNewImageUrl] = useState('');
+  const [newImageVehicleId, setNewImageVehicleId] = useState('');
   const [editUserMode, setEditUserMode] = useState(false);
   const { user, register, logout } = useAuth();
   const navigate = useNavigate();
@@ -160,11 +162,59 @@ const AdminDashboard = () => {
     }
   };
 
+  const fetchVehicleImages = async (vehicleId) => {
+    try {
+      const response = await fetch(`http://localhost:8090/vehicle-images/vehicle/${vehicleId}`, {
+        method: 'GET',
+        headers: { 'Accept': '*/*' },
+      });
+  
+      const data = await response.json();
+  
+      if (Array.isArray(data)) {
+        setVehicleImages((prevImages) => ({
+          ...prevImages,
+          [vehicleId]: data, 
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching vehicle images:', error);
+    }
+  };  
+
+  const handleAddImageUrl = async () => {
+    if (newImageUrl && newImageVehicleId) {
+      const response = await fetch('http://localhost:8090/vehicle-images', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vehicleId: newImageVehicleId,
+          url: newImageUrl,
+          description: 'Lateral esquerda',
+        }),
+      });
+
+      if (response.ok) {
+        alert('Imagem adicionada com sucesso!');
+        setNewImageUrl('');
+        setNewImageVehicleId('');
+        fetchVehicleImages(newImageVehicleId);
+      } else {
+        alert('Erro ao adicionar imagem.');
+      }
+    } else {
+      alert('Por favor, insira uma URL de imagem válida e ID de veículo.');
+    }
+  };
+
   const loadData = async () => {
     const usersData = await fetchUsers();
     setUsers(usersData);
     const vehiclesData = await fetchVehicles();
     setVehicles(vehiclesData);
+    vehiclesData.forEach(vehicle => {
+      fetchVehicleImages(vehicle.vehicleId);
+    });
   };
 
   useEffect(() => {
@@ -174,9 +224,9 @@ const AdminDashboard = () => {
   return (
     <div>
       <h2>Painel do Administrador</h2>
-      <p>Bem-vindo ao painel do administrador, {user.name.split(' ')[0]}! 
-      <br></br>Aqui você pode gerenciar usuários e veículos.
-      <br></br>
+      <p>Bem-vindo ao painel do administrador, {user.name.split(' ')[0]}!
+        <br></br>Aqui você pode gerenciar usuários e veículos.
+        <br></br>
       </p>
       <button className="logout-button" onClick={handleLogout}>Logout</button>
 
@@ -330,6 +380,7 @@ const AdminDashboard = () => {
               <th>Quilometragem</th>
               <th>Categoria</th>
               <th>Status</th>
+              <th>Imagens</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -346,6 +397,11 @@ const AdminDashboard = () => {
                 <td>{vehicle.mileage}</td>
                 <td>{vehicle.category}</td>
                 <td>{vehicle.status}</td>
+                <td>
+                  {vehicleImages[vehicle.vehicleId]?.map((image, index) => (
+                    <div key={index}>{image.url}</div>
+                  ))}
+                </td>
                 <td>
                   <button onClick={() => handleRemoveVehicle(vehicle.vehicleId)}>Remover</button>
                 </td>
