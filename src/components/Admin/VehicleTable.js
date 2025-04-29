@@ -16,9 +16,9 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
               <th>Cor</th>
               <th>Ano</th>
               <th>Placa</th>
-              <th>Combustível</th>
+              {/* <th>Combustível</th>
               <th>Quilometragem</th>
-              <th>Categoria</th>
+              <th>Categoria</th> */}
               <th>Imagens</th>
               <th>Ações</th>
             </tr>
@@ -32,9 +32,9 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
                 <td>{vehicle.color}</td>
                 <td>{vehicle.year}</td>
                 <td>{vehicle.licensePlate}</td>
-                <td>{vehicle.fuelType}</td>
+                {/* <td>{vehicle.fuelType}</td>
                 <td>{vehicle.mileage}</td>
-                <td>{vehicle.category}</td>
+                <td>{vehicle.category}</td> */}
                 <td>
                   {vehicleImages[vehicle.vehicleId]?.map((image, index) => (
                     <div key={index} style={{ marginBottom: '20px' }}>
