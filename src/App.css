@@ -80,6 +80,7 @@ form {
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  text-align: center; 
 }
 
 input, select, button {
@@ -90,6 +91,7 @@ input, select, button {
   font-size: 14px;
   margin: 5px auto;
   display: block;
+  text-align: center; 
 }
 
 input, select {
@@ -153,7 +155,7 @@ table {
 
 th, td {
   padding: 1rem;
-  text-align: left;
+  text-align: center;
   border: 1px solid #ddd;
 }
 
