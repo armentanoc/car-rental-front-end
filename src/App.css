@@ -1,38 +1,52 @@
-/* src/styles/global.css */
+/* Global styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif; /* Fonte padrão */
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  background-color: #1e3d59; /* Azul-marinho */
-  color: #ffffff; /* Branco */
+  background-color: #1e3d59;
+  color: #ffffff;
   line-height: 1.6;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  align-items: center; 
+  justify-content: flex-start; 
+  padding: 20px;
+  margin: 0;
+  height: 100vh; 
 }
 
 div#root {
-  margin: 20px; 
+  width: 100%;
+  max-width: 1200px;
+  margin-top: 20px; 
 }
 
-h1, h3, h4, h5, h6 {
-  margin-top: 30px;
-  margin-bottom: 20px;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
   text-align: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 h2 {
+  font-size: 2em;
   margin-top: 60px;
-  margin-bottom: 20px;
-  color: #ffffff;
 }
 
+h3 {
+  color: #e0e0e0;
+  border-bottom: 2px solid #002060;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  font-size: 1.5em;
+}
+
+/* Links */
 a {
   color: #4da8da;
   text-decoration: none;
@@ -42,12 +56,161 @@ a:hover {
   text-decoration: underline;
 }
 
-button {
+/* Root container */
+div#root {
+  margin: 20px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Dashboard container */
+.teacher-dashboard {
+  width: 100%;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+input, select, button {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin: 5px auto;
+  display: block;
+}
+
+input, select {
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #002060;
+}
+
+input:focus, select:focus {
+  border-color: #002060;
+  outline: none;
+}
+
+/* Buttons */
+button, .input-button, .remove-button {
+  background-color: #002060;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
   cursor: pointer;
 }
 
+button:hover, .input-button:hover, .remove-button:hover {
+  background-color: #004080;
+}
+
+.input-button, .remove-button {
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+/* List items */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #ffffff;
+  color: #002060;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #002060;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Table styles */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #1e3d59;
+  color: #ffffff;
+}
+
+tr:nth-child(even), tr:nth-child(odd) {
+  background-color: #1e3d59;
+}
+
+/* Buttons container */
+.botoes-div {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+/* Paragraphs */
+p {
+  text-align: center;
+  margin: 10px 0;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8em;
+  }
+
+  input, select, button {
+    font-size: 14px;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  h2 {
+    font-size: 1.5em;
+  }
+
+  input, select, button {
+    font-size: 12px;
+    max-width: 100%;
+  }
+
+  .botoes-div {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
 .logout-button {
-  position: fixed; /* Fix button to the screen */
+  position: fixed; 
   top: 20px;
   right: 20px;
   background-color: #f44336;
@@ -64,227 +227,4 @@ button {
 
 .logout-button:hover {
   background-color: #d32f2f;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-th, td {
-  padding: 15px;
-  text-align: left;
-  border: 1px solid #ddd; 
-}
-
-th {
-  background-color: #1e3d59;
-  color: #ffffff;
-  font-size: 16px;
-}
-
-tr:nth-child(even) {
-  background-color: #1e3d59;
-}
-
-tr:nth-child(odd) {
-  background-color: #1e3d59; 
-}
-
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-/* src/styles/TeacherDashboard.css */
-.teacher-dashboard {
-  width: 100%; /* Ensure the dashboard takes the full width */
-  max-width: 900px; /* Still limit width on large screens */
-  margin: 40px auto;
-  padding: 20px;
-  background-color: #e0e0e0;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  position: relative;
-  box-sizing: border-box;
-}
-
-/* Títulos */
-h2 {
-  text-align: center;
-  color: #e0e0e0;
-  font-size: 2em;
-  margin-bottom: 20px;
-}
-
-h3 {
-  color: #e0e0e0;
-  border-bottom: 2px solid #002060;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-  font-size: 1.5em;
-}
-
-/* Formulário */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-input, select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  width: 100%;
-  max-width: 350px;
-  margin: 5px;
-}
-
-input:focus, select:focus {
-  border-color: #002060;
-  outline: none;
-}
-
-button {
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background-color: #002060;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  width: 100%;
-  max-width: 350px;
-  margin: 5px auto;
-  padding-left: 0;
-  padding-right: 0;
-}
-
-button:hover {
-  background-color: #004080;
-}
-
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  background-color: #ffffff;
-  color: #002060;
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  border: 1px solid #002060;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Logout button for smaller screens */
-.logout-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.logout-button:hover {
-  background-color: #d32f2f;
-}
-
-/* Responsive styles */
-@media (max-width: 768px) {
-  .teacher-dashboard {
-    padding: 20px;
-  }
-
-  h2 {
-    font-size: 1.8em;
-  }
-
-  input, select, button {
-    font-size: 14px;
-    max-width: 100%; /* Take full width on smaller screens */
-  }
-}
-
-@media (max-width: 480px) {
-  .teacher-dashboard {
-    padding: 15px;
-  }
-
-  h2 {
-    font-size: 1.5em;
-  }
-
-  .logout-button {
-    top: 10px;
-    right: 10px;
-    padding: 8px 12px;
-    font-size: 14px;
-  }
-
-  input, select, button {
-    font-size: 12px;
-  }
-}
-
-.botoes-div {
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;
-}
-
-.logout-button {
-  position: fixed; 
-  top: 20px;       
-  right: 20px;    
-  background-color: #f44336; 
-  color: white;    
-  border: none;
-  padding: 10px 15px; 
-  border-radius: 5px; 
-  cursor: pointer;
-  font-size: 16px;  
-  z-index: 10;       
-}
-
-.logout-button:hover {
-  background-color: #d32f2f; 
-}
-
-p {
-  text-align: center;
-}
-
-.input-button {
-  display: block; 
-  margin: 20px auto; 
-  padding: 10px 20px; 
-  background-color: #002060; 
-  color: white; 
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.input-button:hover {
-  background-color: #004080; 
 }
