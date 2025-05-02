@@ -248,6 +248,17 @@ li {
   transition: transform 0.2s ease;
 }
 
+li img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+  width: 80%; 
+  max-width: 400px; 
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
 li:hover {
   transform: translateY(-2px);
 }

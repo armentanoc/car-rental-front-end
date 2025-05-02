@@ -38,7 +38,7 @@ const ManageImages = () => {
       console.error('Erro ao buscar imagens:', err);
     }
   };
-  
+
   const handleRemoveImage = async (imageId, vehicleId) => {
     try {
       await ImageAPI.removeImage(imageId);
@@ -64,7 +64,7 @@ const ManageImages = () => {
               <li key={image.imageId}>
                 <img src={image.url} alt={image.description} width="120" />
                 <p>{image.description}</p>
-                <button onClick={() => handleRemoveImage(image.imageId, vehicleId)}>Remover</button>
+                <button class="remove-button" onClick={() => handleRemoveImage(image.imageId, vehicleId)}>Remover</button>
               </li>
             ))}
           </ul>

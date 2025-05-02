@@ -60,7 +60,7 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
     <div className="vehicle-grid">
       {vehicles.map(vehicle => {
         const images = vehicleImages[vehicle.id] || [];
-        const currentImageIndex = activeImageIndex[vehicle.vehicleId] || 0;
+        const currentImageIndex = activeImageIndex[vehicle.id] || 0;
         
         return (
           <div key={vehicle.id} className="vehicle-card">
@@ -77,7 +77,7 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
                     <div className="carousel-controls">
                       <button 
                         className="carousel-button prev"
-                        onClick={() => navigateImage(vehicle.vehicleId, 'prev')}
+                        onClick={() => navigateImage(vehicle.id, 'prev')}
                       >
                         &lt;
                       </button>
@@ -91,7 +91,7 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
                       </div>
                       <button 
                         className="carousel-button next"
-                        onClick={() => navigateImage(vehicle.vehicleId, 'next')}
+                        onClick={() => navigateImage(vehicle.id, 'next')}
                       >
                         &gt;
                       </button>
