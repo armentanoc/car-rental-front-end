@@ -11,17 +11,15 @@ const ClientLayout = () => {
   };
 
   return (
-    <div className="admin-layout">
-      <header className="admin-header">
+    <div className="layout">
+      <header className="header">
         <h2>Cliente</h2>
         <ThemeToggle />
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
-        {/* <nav className="nav-links">
-          <NavLink to="/admin/users" className="nav-link" activeClassName="active-link">Usuários</NavLink>
-          <NavLink to="/admin/vehicles" className="nav-link" activeClassName="active-link">Veículos</NavLink>
-          <NavLink to="/admin/images" className="nav-link" activeClassName="active-link">Imagens</NavLink>
-        </nav> */}
+        <nav className="nav-links">
+          <NavLink to="/client/catalog" className="nav-link" activeClassName="active-link">Catálogo</NavLink>
+        </nav>
         <hr />
       </header>
 

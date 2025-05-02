@@ -59,7 +59,6 @@
   height: 20px;
 }
 
-/* Header layout for theme toggle */
 .header-top {
   display: flex;
   align-items: center;
@@ -96,7 +95,6 @@ div#root {
   margin-top: 1.25rem;
 }
 
-/* Typography */
 h1,
 h2,
 h3,
@@ -130,7 +128,6 @@ h3 {
   font-size: 1.5rem;
 }
 
-/* Links */
 a {
   color: var(--primary);
   text-decoration: none;
@@ -143,15 +140,13 @@ a:hover {
   opacity: 0.9;
 }
 
-/* Root container */
 div#root {
   margin: 1.25rem;
   width: 100%;
   max-width: 1200px;
 }
 
-/* Dashboard container */
-.teacher-dashboard {
+.layout{
   width: 100%;
   max-width: 1000px;
   margin: 2.5rem auto;
@@ -162,7 +157,6 @@ div#root {
   border: 1px solid var(--border);
 }
 
-/* Forms */
 form {
   display: flex;
   flex-direction: column;
@@ -205,7 +199,6 @@ select:focus {
   opacity: 0.7;
 }
 
-/* Buttons */
 button,
 .input-button,
 .remove-button {
@@ -238,7 +231,6 @@ button:active,
   font-size: 0.875rem;
 }
 
-/* List items */
 ul {
   list-style-type: none;
   padding: 0;
@@ -260,7 +252,6 @@ li:hover {
   transform: translateY(-2px);
 }
 
-/* Table styles */
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -304,7 +295,6 @@ tr:hover {
   background-color: rgba(37, 99, 235, 0.05);
 }
 
-/* Buttons container */
 .botoes-div {
   display: flex;
   justify-content: flex-end;
@@ -313,14 +303,12 @@ tr:hover {
   margin-top: 0.625rem;
 }
 
-/* Paragraphs */
 p {
   text-align: center;
   margin: 0.625rem 0;
   color: var(--text-secondary);
 }
 
-/* Logout button */
 .logout-button {
   position: fixed;
   top: 1.25rem;
@@ -348,7 +336,6 @@ p {
   transform: translateY(0);
 }
 
-/* Navigation */
 .nav-links {
   margin-top: 1.25rem;
   display: flex;
@@ -389,7 +376,6 @@ hr {
   width: 100%;
 }
 
-/* Media queries */
 @media (max-width: 768px) {
   h1 {
     font-size: 1.875rem;

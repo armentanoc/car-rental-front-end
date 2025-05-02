@@ -11,8 +11,8 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="admin-layout">
-      <header className="admin-header">
+    <div className="layout">
+      <header className="header">
         <h2>Administrador</h2>
         <ThemeToggle />
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
