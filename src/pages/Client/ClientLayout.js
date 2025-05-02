@@ -1,8 +1,8 @@
 import React from 'react';
 import { Outlet, Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
 
-const AdminLayout = () => {
+const ClientLayout = () => {
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
@@ -12,14 +12,14 @@ const AdminLayout = () => {
   return (
     <div className="admin-layout">
       <header className="admin-header">
-        <h2>Admin Dashboard</h2>
+        <h2>Cliente</h2>
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
-        <nav className="nav-links">
+        {/* <nav className="nav-links">
           <NavLink to="/admin/users" className="nav-link" activeClassName="active-link">Usuários</NavLink>
           <NavLink to="/admin/vehicles" className="nav-link" activeClassName="active-link">Veículos</NavLink>
           <NavLink to="/admin/images" className="nav-link" activeClassName="active-link">Imagens</NavLink>
-        </nav>
+        </nav> */}
         <hr />
       </header>
 
@@ -30,4 +30,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default ClientLayout;

@@ -8,6 +8,7 @@ import ManageUsers from './pages/Admin/ManageUsers';
 import ManageVehicles from './pages/Admin/ManageVehicles';
 import ManageImages from './pages/Admin/ManageImages';
 import AdminLayout from './pages/Admin/AdminLayout';
+import ClientLayout from './pages/Client/ClientLayout';
 import { ThemeProvider } from "./context/ThemeContext"
 import './App.css';
 
@@ -30,6 +31,14 @@ function App() {
             <Route path="users" element={<ManageUsers />} />
             <Route path="vehicles" element={<ManageVehicles />} />
             <Route path="images" element={<ManageImages />} />
+          </Route>
+          <Route
+            path="/client"
+            element={<PrivateRoute element={<ClientLayout />} allowedRoles={['CLIENT']} />}
+          >
+            {/* <Route path="users" element={<ManageUsers />} />
+            <Route path="vehicles" element={<ManageVehicles />} />
+            <Route path="images" element={<ManageImages />} /> */}
           </Route>
         </Routes>
       </AuthProvider>
