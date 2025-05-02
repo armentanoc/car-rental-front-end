@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, Link, NavLink } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAuth } from '../../context/AuthContext';
+import ThemeToggle from '../../components/ThemeToggle';
 
 const AdminLayout = () => {
   const { user, logout } = useAuth();
@@ -13,6 +14,7 @@ const AdminLayout = () => {
     <div className="admin-layout">
       <header className="admin-header">
         <h2>Administrador</h2>
+        <ThemeToggle />
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
         <nav className="nav-links">

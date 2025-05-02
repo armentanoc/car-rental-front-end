@@ -7,12 +7,14 @@ import Dashboard from './pages/Dashboard';
 import ManageUsers from './pages/Admin/ManageUsers';
 import ManageVehicles from './pages/Admin/ManageVehicles';
 import ManageImages from './pages/Admin/ManageImages';
-import AdminLayout from './pages/AdminLayout';
+import AdminLayout from './pages/Admin/AdminLayout';
+import { ThemeProvider } from "./context/ThemeContext"
 import './App.css';
 
 function App() {
   return (
     <Router>
+      <ThemeProvider>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -31,6 +33,7 @@ function App() {
           </Route>
         </Routes>
       </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }
