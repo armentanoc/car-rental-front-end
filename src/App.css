@@ -402,6 +402,10 @@ hr {
     text-align: center;
     min-width: 7.5rem;
   }
+
+  .hide-on-small {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
@@ -449,7 +453,7 @@ hr {
   align-items: flex-end;
   gap: 16px;
   padding: 16px;
-  background-color: #f5f5f5;
+  background-color: var(--background);
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -501,6 +505,8 @@ hr {
   .filter-bar {
     flex-direction: column;
     align-items: stretch;
+    background-color: var(--background);
+    color: var(--text);
   }
 
   .search-button {
@@ -515,7 +521,8 @@ hr {
   align-items: flex-end;
   gap: 16px;
   padding: 16px;
-  background-color: #f5f5f5;
+  background-color: var(--background);
+  color: var(--text);
   border-radius: 8px;
   margin-bottom: 20px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -536,7 +543,7 @@ hr {
 .filter-item label {
   font-size: 0.85rem;
   font-weight: 500;
-  color: #555;
+  color:  var(--text-secondary);
 }
 
 .filter-item input,
@@ -577,7 +584,7 @@ hr {
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  background-color: white;
+  background-color: var(--background); 
 }
 
 .vehicle-card:hover {

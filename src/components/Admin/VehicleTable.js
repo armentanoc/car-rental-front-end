@@ -13,7 +13,7 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
               <th>Id</th>
               <th>Modelo</th>
               <th>Marca</th>
-              <th>Cor</th>
+              <th className="hide-on-small">Cor</th> 
               <th>Ano</th>
               <th>Placa</th>
               {/* <th>Combustível</th>
@@ -29,7 +29,7 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
                 <td>{vehicle.vehicleId}</td>
                 <td>{vehicle.model}</td>
                 <td>{vehicle.brand}</td>
-                <td>{vehicle.color}</td>
+                <td className="hide-on-small">{vehicle.color}</td> 
                 <td>{vehicle.year}</td>
                 <td>{vehicle.licensePlate}</td>
                 {/* <td>{vehicle.fuelType}</td>
@@ -43,10 +43,7 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
                         alt={image.description}
                         style={{ width: '100px', height: '100px', objectFit: 'cover' }}
                       />
-                      {/* <br />
-                      <strong>URL:</strong> {image.url}
-                      <br /> */}
-                      <br></br>
+                      <br />
                       <strong>Descrição:</strong> {image.description}
                       <br />
                       <strong>ID:</strong> {image.imageId}
