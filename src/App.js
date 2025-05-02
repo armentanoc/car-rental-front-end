@@ -1,15 +1,13 @@
 // src/App.js
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Login, Register } from './components/Auth';
-// import TeacherDashboard from './pages/TeacherDashboard';
-// import ManagerDashboard from './pages/ManagerDashboard';
-import AdminDashboard from './pages/AdminDashboard';
-// import { RequestSpace } from './components/SpaceManagement';
-// import { ApproveRequest, ApprovalHistory } from './components/Approval';
-import { ManageSpaces, ManageUsers } from './components/Admin';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute'; 
 import Dashboard from './pages/Dashboard';
+import ManageUsers from './pages/Admin/ManageUsers';
+import ManageVehicles from './pages/Admin/ManageVehicles';
+import ManageImages from './pages/Admin/ManageImages';
+import AdminLayout from './pages/AdminLayout';
 import './App.css';
 
 function App() {
@@ -23,38 +21,14 @@ function App() {
             path="/" 
             element={<PrivateRoute element={<Dashboard />} allowedRoles={['CLIENT', 'ATTENDING', 'MANAGER', 'ADMIN']} />} 
           />
-          {/* <Route 
-            path="/user-dashboard" 
-            element={<PrivateRoute element={<TeacherDashboard />} allowedRoles={['PROFESSOR']} />} 
-          />
-          <Route 
-            path="/manager-dashboard" 
-            element={<PrivateRoute element={<ManagerDashboard />} allowedRoles={['GESTOR']} />} 
-          /> */}
-          <Route 
-            path="/admin-dashboard" 
-            element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ADMIN']} />} 
-          />
-          {/* <Route 
-            path="/request-space" 
-            element={<PrivateRoute element={<RequestSpace />} allowedRoles={['PROFESSOR']} />} 
-          />
-          <Route 
-            path="/approve-requests" 
-            element={<PrivateRoute element={<ApproveRequest />} allowedRoles={['GESTOR', 'ADMINISTRADOR']} />} 
-          />
-          <Route 
-            path="/approval-history" 
-            element={<PrivateRoute element={<ApprovalHistory />} allowedRoles={['GESTOR', 'ADMINISTRADOR']} />} 
-          />
-          <Route 
-            path="/manage-spaces" 
-            element={<PrivateRoute element={<ManageSpaces />} allowedRoles={['ADMINISTRADOR']} />} 
-          /> */}
-          <Route 
-            path="/manage-users" 
-            element={<PrivateRoute element={<ManageUsers />} allowedRoles={['ADMIN']} />} 
-          />
+          <Route
+            path="/admin"
+            element={<PrivateRoute element={<AdminLayout />} allowedRoles={['ADMIN']} />}
+          >
+            <Route path="users" element={<ManageUsers />} />
+            <Route path="vehicles" element={<ManageVehicles />} />
+            <Route path="images" element={<ManageImages />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </Router>

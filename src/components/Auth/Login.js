@@ -13,14 +13,10 @@ const Login = () => {
     if (user) {
       switch (user.role) {
         case 'ADMIN':
-          navigate('/admin-dashboard');
+          navigate('/admin/users');
           break;
-        // case 'GESTOR':
-        //   navigate('/manager-dashboard');
-        //   break;
-        // case 'PROFESSOR':
         default:
-          navigate('/user-dashboard');
+          navigate('/client');
           break;
       }
     }

@@ -17,11 +17,11 @@ const Dashboard = () => {
       // Redireciona para o painel correspondente com base no perfil do usuário
       switch (user.role) {
         case 'admin':
-          navigate('/admin-dashboard');
+          navigate('/admin');
           break;
         case 'client':
         default:
-          navigate('/client-dashboard');
+          navigate('/client');
           break;
       }
     }
@@ -35,10 +35,10 @@ const Dashboard = () => {
       <nav>
         <ul>
           <li>
-            <Link to="/client-dashboard">Painel do Cliente</Link>
+            <Link to="/client">Painel do Cliente</Link>
           </li> 
           <li>
-            <Link to="/admin-dashboard">Painel do Administrador</Link>
+            <Link to="/admin">Painel do Administrador</Link>
           </li>
         </ul>
       </nav>
