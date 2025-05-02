@@ -12,7 +12,7 @@ const AdminLayout = () => {
   return (
     <div className="admin-layout">
       <header className="admin-header">
-        <h2>Administrador</h2>
+        <h2>Admin Dashboard</h2>
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
         <nav className="nav-links">
