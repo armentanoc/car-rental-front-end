@@ -1,6 +1,6 @@
 // src/pages/admin/ManageVehicles.js
 import React, { useEffect, useState } from 'react';
-import { fetchVehicles, removeVehicle } from '../../components/Admin/api';
+import { VehicleAPI, ImageAPI } from '../../components/Admin/api'; // ✅ Modular imports
 import { useAuth } from '../../context/AuthContext';
 import VehicleForm from '../../components/Admin/VehicleForm';
 import VehicleTable from '../../components/Admin/VehicleTable';
@@ -24,18 +24,14 @@ const ManageVehicles = () => {
   });
 
   const loadVehicles = async () => {
-    const data = await fetchVehicles();
+    const data = await VehicleAPI.fetchVehicles();
     setVehicles(data);
     data.forEach(vehicle => fetchVehicleImages(vehicle.vehicleId));
   };
 
   const fetchVehicleImages = async (vehicleId) => {
     try {
-      const response = await fetch(`http://localhost:8090/vehicle-images/vehicle/${vehicleId}`, {
-        method: 'GET',
-        headers: { 'Accept': '*/*' },
-      });
-      const data = await response.json();
+      const data = await ImageAPI.fetchVehicleImages(vehicleId);
       if (Array.isArray(data)) {
         setVehicleImages(prev => ({ ...prev, [vehicleId]: data }));
       }
@@ -46,13 +42,10 @@ const ManageVehicles = () => {
 
   const handleRegisterVehicle = async () => {
     const { model, brand, licensePlate, year } = newVehicle;
+
     if (model && brand && licensePlate && year) {
-      const res = await fetch('http://localhost:8090/vehicles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newVehicle),
-      });
-      if (res.ok) {
+      try {
+        await VehicleAPI.registerVehicle(newVehicle);
         alert('Veículo registrado com sucesso!');
         setNewVehicle({
           model: '', brand: '', color: '', year: '', licensePlate: '',
@@ -60,7 +53,8 @@ const ManageVehicles = () => {
           status: 'ACTIVE', category: 'SUV'
         });
         await loadVehicles();
-      } else {
+      } catch (err) {
+        console.error(err);
         alert('Erro ao cadastrar veículo.');
       }
     } else {
@@ -69,10 +63,15 @@ const ManageVehicles = () => {
   };
 
   const handleRemoveVehicle = async (vehicleId) => {
-    const deletedId = await removeVehicle(vehicleId, user.id);
-    if (deletedId) {
-      setVehicles(prev => prev.filter(v => v.vehicleId !== deletedId));
-      alert('Veículo removido com sucesso.');
+    try {
+      const deletedId = await VehicleAPI.removeVehicle(vehicleId, user.id);
+      if (deletedId) {
+        setVehicles(prev => prev.filter(v => v.vehicleId !== deletedId));
+        alert('Veículo removido com sucesso.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao remover veículo.');
     }
   };
 

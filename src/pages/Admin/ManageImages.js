@@ -1,6 +1,6 @@
 // src/pages/admin/ManageImages.js
 import React, { useState } from 'react';
-import { removeImage } from '../../components/Admin/api';
+import { ImageAPI } from '../../components/Admin/api'; 
 import { useAuth } from '../../context/AuthContext';
 import ImageForm from '../../components/Admin/ImageForm';
 
@@ -11,39 +11,26 @@ const ManageImages = () => {
 
   const handleAddImageUrl = async () => {
     const { url, vehicleId, description } = newImage;
+
     if (!url || !vehicleId || !description) {
       alert('Por favor, preencha todos os campos da imagem.');
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:8090/vehicle-images', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': '*/*' },
-        body: JSON.stringify({ vehicleId, url, description }),
-      });
-
-      if (response.ok) {
-        alert('Imagem adicionada com sucesso!');
-        setNewImage({ url: '', vehicleId: '', description: '' });
-        await fetchVehicleImages(vehicleId);
-      } else {
-        const errorData = await response.json();
-        alert(`Erro ao adicionar imagem: ${errorData.message || 'Erro desconhecido'}`);
-      }
+      await ImageAPI.addImage({ vehicleId, url, description });
+      alert('Imagem adicionada com sucesso!');
+      setNewImage({ url: '', vehicleId: '', description: '' });
+      await fetchVehicleImages(vehicleId);
     } catch (error) {
       console.error('Erro ao adicionar imagem:', error);
-      alert('Erro ao adicionar imagem.');
+      alert(error.message || 'Erro ao adicionar imagem.');
     }
   };
 
   const fetchVehicleImages = async (vehicleId) => {
     try {
-      const res = await fetch(`http://localhost:8090/vehicle-images/vehicle/${vehicleId}`, {
-        method: 'GET',
-        headers: { 'Accept': '*/*' },
-      });
-      const data = await res.json();
+      const data = await ImageAPI.fetchVehicleImages(vehicleId);
       if (Array.isArray(data)) {
         setVehicleImages(prev => ({ ...prev, [vehicleId]: data }));
       }
@@ -53,13 +40,18 @@ const ManageImages = () => {
   };
 
   const handleRemoveImage = async (imageId, vehicleId) => {
-    const deleted = await removeImage(imageId);
-    if (deleted) {
-      setVehicleImages(prev => ({
-        ...prev,
-        [vehicleId]: prev[vehicleId].filter(img => img.imageId !== imageId),
-      }));
-      alert('Imagem removida com sucesso!');
+    try {
+      const deleted = await ImageAPI.removeImage(imageId);
+      if (deleted) {
+        setVehicleImages(prev => ({
+          ...prev,
+          [vehicleId]: prev[vehicleId].filter(img => img.imageId !== imageId),
+        }));
+        alert('Imagem removida com sucesso!');
+      }
+    } catch (err) {
+      console.error('Erro ao remover imagem:', err);
+      alert('Erro ao remover imagem.');
     }
   };
 

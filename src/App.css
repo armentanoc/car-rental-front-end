@@ -327,11 +327,18 @@ p {
   box-shadow: var(--shadow);
 }
 
+.remove-button {
+  background-color: var(--error);
+  color: white;
+}
+
+.remove-button:hover,
 .logout-button:hover {
   background-color: #dc2626;
   transform: translateY(-1px);
 }
 
+.remove-button:active,
 .logout-button:active {
   transform: translateY(0);
 }
@@ -711,4 +718,23 @@ hr {
   .vehicle-grid {
     grid-template-columns: 1fr;
   }
+}
+
+button.edit-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-align: center;
+}
+
+button.edit-button:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+button.edit-button:active {
+  transform: translateY(0);
 }

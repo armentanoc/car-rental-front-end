@@ -1,6 +1,4 @@
-import React from 'react';
-
-const UserTable = ({ users, onRemoveUser }) => {
+const UserTable = ({ users, onRemoveUser, onEditUser }) => {
   return (
     <div>
       <h3>Gestão de Usuários</h3>
@@ -27,6 +25,9 @@ const UserTable = ({ users, onRemoveUser }) => {
                 <td>{user.email}</td>
                 <td>{user.username}</td>
                 <td>
+                  <button className="edit-button" onClick={() => onEditUser(user)} style={{ marginRight: '5px' }}>
+                    Editar
+                  </button>
                   <button className="remove-button" onClick={() => onRemoveUser(user.id)}>
                     Remover
                   </button>
@@ -40,4 +41,4 @@ const UserTable = ({ users, onRemoveUser }) => {
   );
 };
 
-export default UserTable;
+export default UserTable; 
