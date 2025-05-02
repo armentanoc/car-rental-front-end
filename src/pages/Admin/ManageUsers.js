@@ -60,16 +60,14 @@ const ManageUsers = () => {
 
   const handleRemoveUser = async (userId) => {
     try {
-      const deletedId = await UserAPI.removeUser(userId, user.id);
-      if (deletedId) {
-        setUsers(prev => prev.filter(u => u.id !== deletedId));
-        alert('Usuário removido com sucesso.');
-      }
+      await UserAPI.removeUser(userId, user.id);
+      setUsers(prev => prev.filter(u => u.id !== userId));
+      alert('Usuário removido com sucesso.');
     } catch (err) {
       console.error('Erro ao remover usuário:', err);
       alert('Erro ao remover usuário.');
     }
-  };
+  };  
 
   useEffect(() => {
     loadUsers();

@@ -1,6 +1,6 @@
 // src/pages/admin/ManageVehicles.js
 import React, { useEffect, useState } from 'react';
-import { VehicleAPI, ImageAPI } from '../../components/Admin/api'; // ✅ Modular imports
+import { VehicleAPI, ImageAPI } from '../../components/Admin/api'; 
 import { useAuth } from '../../context/AuthContext';
 import VehicleForm from '../../components/Admin/VehicleForm';
 import VehicleTable from '../../components/Admin/VehicleTable';
@@ -64,11 +64,9 @@ const ManageVehicles = () => {
 
   const handleRemoveVehicle = async (vehicleId) => {
     try {
-      const deletedId = await VehicleAPI.removeVehicle(vehicleId, user.id);
-      if (deletedId) {
-        setVehicles(prev => prev.filter(v => v.vehicleId !== deletedId));
-        alert('Veículo removido com sucesso.');
-      }
+      await VehicleAPI.removeVehicle(vehicleId, user.id);
+      setVehicles(prev => prev.filter(v => v.vehicleId !== vehicleId));
+      alert('Veículo removido com sucesso.');
     } catch (err) {
       console.error(err);
       alert('Erro ao remover veículo.');

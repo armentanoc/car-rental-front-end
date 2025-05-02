@@ -38,23 +38,21 @@ const ManageImages = () => {
       console.error('Erro ao buscar imagens:', err);
     }
   };
-
+  
   const handleRemoveImage = async (imageId, vehicleId) => {
     try {
-      const deleted = await ImageAPI.removeImage(imageId);
-      if (deleted) {
-        setVehicleImages(prev => ({
-          ...prev,
-          [vehicleId]: prev[vehicleId].filter(img => img.imageId !== imageId),
-        }));
-        alert('Imagem removida com sucesso!');
-      }
+      await ImageAPI.removeImage(imageId);
+      setVehicleImages(prev => ({
+        ...prev,
+        [vehicleId]: prev[vehicleId].filter(img => img.imageId !== imageId),
+      }));
+      alert('Imagem removida com sucesso!');
     } catch (err) {
       console.error('Erro ao remover imagem:', err);
       alert('Erro ao remover imagem.');
     }
   };
-
+  
   return (
     <div>
       <ImageForm newImage={newImage} setNewImage={setNewImage} onAddImage={handleAddImageUrl} />

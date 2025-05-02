@@ -42,9 +42,12 @@ const AvailableVehicles = () => {
     await Promise.all(
       result.map(async (vehicle) => {
         const images = await fetchVehicleImages(vehicle.id)
-        imagesMap[vehicle.vehicleId] = images
-      }),
+        imagesMap[vehicle.id] = images  
+      })
     )
+
+setVehicleImages(imagesMap)
+
 
     setVehicleImages(imagesMap)
     setLoading(false)

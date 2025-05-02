@@ -59,11 +59,11 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
   return (
     <div className="vehicle-grid">
       {vehicles.map(vehicle => {
-        const images = vehicleImages[vehicle.vehicleId] || [];
+        const images = vehicleImages[vehicle.id] || [];
         const currentImageIndex = activeImageIndex[vehicle.vehicleId] || 0;
         
         return (
-          <div key={vehicle.vehicleId} className="vehicle-card">
+          <div key={vehicle.id} className="vehicle-card">
             <div className="vehicle-image-carousel">
               {images.length > 0 ? (
                 <>
