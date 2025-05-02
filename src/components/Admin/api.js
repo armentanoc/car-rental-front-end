@@ -95,6 +95,30 @@ const removeVehicle = async (vehicleId, adminId) => {
   }
 };
 
+const handleRegisterVehicle = async () => {
+  const { model, brand, licensePlate, year } = newVehicle;
+  if (model && brand && licensePlate && year) {
+    const res = await fetch('http://localhost:8090/vehicles', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newVehicle),
+    });
+    if (res.ok) {
+      alert('Veículo registrado com sucesso!');
+      setNewVehicle({
+        model: '', brand: '', color: '', year: '', licensePlate: '',
+        chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '',
+        status: 'ACTIVE', category: 'SUV'
+      });
+      await loadVehicles();
+    } else {
+      alert('Erro ao cadastrar veículo.');
+    }
+  } else {
+    alert('Por favor, preencha todos os campos obrigatórios.');
+  }
+};
+
 const removeImage = async (imageId) => {
   try {
     const response = await fetch(`${BASE_URL}/vehicle-images/${imageId}`, {
@@ -121,20 +145,16 @@ const removeImage = async (imageId) => {
 
 const fetchVehicleImages = async (vehicleId) => {
   try {
-    const response = await fetch(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`, {
+    const response = await fetch(`http://localhost:8090/vehicle-images/vehicle/${vehicleId}`, {
       method: 'GET',
       headers: { 'Accept': '*/*' },
     });
-
     const data = await response.json();
-
     if (Array.isArray(data)) {
-      return data;
+      setVehicleImages(prev => ({ ...prev, [vehicleId]: data }));
     }
-    return [];
-  } catch (error) {
-    console.error('Error fetching vehicle images:', error);
-    return [];
+  } catch (err) {
+    console.error('Erro ao buscar imagens:', err);
   }
 };
 
@@ -161,12 +181,42 @@ const addImage = async (newImage) => {
   }
 };
 
+const handleAddImageUrl = async () => {
+  const { url, vehicleId, description } = newImage;
+  if (!url || !vehicleId || !description) {
+    alert('Por favor, preencha todos os campos da imagem.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:8090/vehicle-images', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': '*/*' },
+      body: JSON.stringify({ vehicleId, url, description }),
+    });
+
+    if (response.ok) {
+      alert('Imagem adicionada com sucesso!');
+      setNewImage({ url: '', vehicleId: '', description: '' });
+      await fetchVehicleImages(vehicleId);
+    } else {
+      const errorData = await response.json();
+      alert(`Erro ao adicionar imagem: ${errorData.message || 'Erro desconhecido'}`);
+    }
+  } catch (error) {
+    console.error('Erro ao adicionar imagem:', error);
+    alert('Erro ao adicionar imagem.');
+  }
+};
+
 export {
   fetchUsers,
   fetchVehicles,
   removeUser,
+  handleRegisterVehicle,
   removeVehicle,
   removeImage,
   fetchVehicleImages,
   addImage,
+  handleAddImageUrl
 };

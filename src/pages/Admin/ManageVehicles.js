@@ -1,12 +1,12 @@
 // src/pages/admin/ManageVehicles.js
 import React, { useEffect, useState } from 'react';
-import { fetchVehicles, removeVehicle } from '../../components/Admin/api';
+import { fetchVehicles, handleRegisterVehicle, removeImage } from '../../components/Admin/api';
 import { useAuth } from '../../context/AuthContext';
 import VehicleForm from '../../components/Admin/VehicleForm';
 import VehicleTable from '../../components/Admin/VehicleTable';
 
 const ManageVehicles = () => {
-  const { user } = useAuth();
+  useAuth();
   const [vehicles, setVehicles] = useState([]);
   const [vehicleImages, setVehicleImages] = useState({});
   const [newVehicle, setNewVehicle] = useState({
@@ -44,27 +44,18 @@ const ManageVehicles = () => {
     }
   };
 
-  const handleRegisterVehicle = async () => {
-    const { model, brand, licensePlate, year } = newVehicle;
-    if (model && brand && licensePlate && year) {
-      const res = await fetch('http://localhost:8090/vehicles', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newVehicle),
-      });
-      if (res.ok) {
-        alert('Veículo registrado com sucesso!');
-        setNewVehicle({
-          model: '', brand: '', color: '', year: '', licensePlate: '',
-          chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '',
-          status: 'ACTIVE', category: 'SUV'
-        });
-        await loadVehicles();
-      } else {
-        alert('Erro ao cadastrar veículo.');
-      }
-    } else {
-      alert('Por favor, preencha todos os campos obrigatórios.');
+  useEffect(() => {
+    loadVehicles();
+  }, []);
+
+  const handleRemoveImage = async (imageId, vehicleId) => {
+    const deleted = await removeImage(imageId);
+    if (deleted) {
+      setVehicleImages(prev => ({
+        ...prev,
+        [vehicleId]: prev[vehicleId].filter(img => img.imageId !== imageId),
+      }));
+      alert('Imagem removida com sucesso!');
     }
   };
 
@@ -76,14 +67,14 @@ const ManageVehicles = () => {
     }
   };
 
-  useEffect(() => {
-    loadVehicles();
-  }, []);
-
   return (
     <div>
       <VehicleForm newVehicle={newVehicle} setNewVehicle={setNewVehicle} onRegisterVehicle={handleRegisterVehicle} />
-      <VehicleTable vehicles={vehicles} vehicleImages={vehicleImages} onRemoveVehicle={handleRemoveVehicle} />
+      <VehicleTable 
+        vehicles={vehicles} 
+        vehicleImages={vehicleImages} 
+        onRemoveVehicle={handleRemoveVehicle}
+        onRemoveImage={handleRemoveImage} />
     </div>
   );
 };
