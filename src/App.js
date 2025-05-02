@@ -8,8 +8,8 @@ import Dashboard from './pages/Dashboard';
 import ManageUsers from './pages/Admin/ManageUsers';
 import ManageVehicles from './pages/Admin/ManageVehicles';
 import ManageImages from './pages/Admin/ManageImages';
-import AdminLayout from './pages/Admin/AdminLayout';
-import ClientLayout from './pages/Client/ClientLayout';
+import AdminDashboard from './pages/Admin/AdminDashboard';
+import ClientDashboard from './pages/Client/ClientDashboard';
 import AvailableVehicles from './pages/Client/AvailableVehicles';
 import './App.css';
 
@@ -27,7 +27,7 @@ function App() {
             />
             <Route
               path="/admin"
-              element={<PrivateRoute element={<AdminLayout />} allowedRoles={['ADMIN']} />}
+              element={<PrivateRoute element={<AdminDashboard />} allowedRoles={['ADMIN']} />}
             >
               <Route path="users" element={<ManageUsers />} />
               <Route path="vehicles" element={<ManageVehicles />} />
@@ -35,7 +35,7 @@ function App() {
             </Route>
             <Route
               path="/client"
-              element={<PrivateRoute element={<ClientLayout />} allowedRoles={['CLIENT']} />}
+              element={<PrivateRoute element={<ClientDashboard />} allowedRoles={['CLIENT']} />}
             >
               <Route path="catalog" element={<AvailableVehicles />} />
             </Route>

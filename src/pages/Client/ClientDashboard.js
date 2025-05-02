@@ -1,26 +1,34 @@
 import React from 'react';
-import { Outlet, Link, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import ThemeToggle from '../../components/ThemeToggle';
 
-const AdminLayout = () => {
+const ClientDashboard = () => {
   const { user, logout } = useAuth();
+  const location = useLocation();
 
   const handleLogout = () => {
     logout();
   };
 
+  const isActiveRoute = (route) => {
+    return location.pathname.startsWith(route);
+  };
+
   return (
     <div className="layout">
       <header className="header">
-        <h2>Administrador</h2>
+        <h2>Cliente</h2>
         <ThemeToggle />
         <p>Bem-vindo, {user?.name?.split(' ')[0]}!</p>
         <button className="logout-button" onClick={handleLogout}>Logout</button>
         <nav className="nav-links">
-          <NavLink to="/admin/users" className="nav-link" activeClassName="active-link">Usuários</NavLink>
-          <NavLink to="/admin/vehicles" className="nav-link" activeClassName="active-link">Veículos</NavLink>
-          <NavLink to="/admin/images" className="nav-link" activeClassName="active-link">Imagens</NavLink>
+          <NavLink 
+            to="/client/catalog" 
+            className={`nav-link ${isActiveRoute('/client/catalog') ? 'active-link' : ''}`} 
+          >
+            Catálogo
+          </NavLink>
         </nav>
         <hr />
       </header>
@@ -32,4 +40,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default ClientDashboard;
