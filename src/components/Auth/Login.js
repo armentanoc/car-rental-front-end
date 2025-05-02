@@ -16,7 +16,7 @@ const Login = () => {
           navigate('/admin/users');
           break;
         default:
-          navigate('/client');
+          navigate('/client/catalog');
           break;
       }
     }
