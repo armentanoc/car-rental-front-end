@@ -41,6 +41,26 @@ const fetchAvailableVehicles = async ({
   }
 };
 
+const fetchVehicleImages = async (vehicleId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`, {
+      method: 'GET',
+      headers: { 'Accept': '*/*' },
+    });
+
+    const data = await response.json();
+
+    if (Array.isArray(data)) {
+      return data;
+    }
+    return [];
+  } catch (error) {
+    console.error('Error fetching vehicle images:', error);
+    return [];
+  }
+};
+
 export {
-  fetchAvailableVehicles
+  fetchAvailableVehicles,
+  fetchVehicleImages
 };
