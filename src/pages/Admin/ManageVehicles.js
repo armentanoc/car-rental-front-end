@@ -19,6 +19,7 @@ const ManageVehicles = () => {
     fuelType: 'GASOLINE',
     mileage: '',
     additionalFeatures: '',
+    dailyRate: '',
     status: 'ACTIVE',
     category: 'SUV'
   });
@@ -41,15 +42,18 @@ const ManageVehicles = () => {
   };
 
   const handleRegisterVehicle = async () => {
-    const { model, brand, licensePlate, year } = newVehicle;
+    const { model, brand, licensePlate, year, dailyRate} = newVehicle;
 
-    if (model && brand && licensePlate && year) {
+    if (model && brand && licensePlate && year && dailyRate) {
       try {
+        newVehicle.dailyRate = newVehicle.dailyRate
+        ? Number.parseFloat(newVehicle.dailyRate.replace("R$ ", "").replace(/\./g, "").replace(",", "."))
+        : 0
         await VehicleAPI.registerVehicle(newVehicle);
         alert('Veículo registrado com sucesso!');
         setNewVehicle({
           model: '', brand: '', color: '', year: '', licensePlate: '',
-          chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '',
+          chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '', dailyRate: '',
           status: 'ACTIVE', category: 'SUV'
         });
         await loadVehicles();

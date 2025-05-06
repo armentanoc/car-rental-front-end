@@ -16,6 +16,7 @@ const AvailableVehiclesTable = ({ vehicles, loading }) => {
           <th>Placa</th>
           <th>Combustível</th>
           <th>Categoria</th>
+          <th>Valor da Diária</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +30,14 @@ const AvailableVehiclesTable = ({ vehicles, loading }) => {
             <td>{vehicle.licensePlate}</td>
             <td>{vehicle.fuelType}</td>
             <td>{vehicle.category}</td>
+            <td>
+            {vehicle.dailyRate
+              ? new Intl.NumberFormat('pt-BR', {
+                  style: 'currency',
+                  currency: 'BRL',
+                }).format(Number(vehicle.dailyRate))
+              : 'R$ 0,00'}
+          </td>
           </tr>
         ))}
       </tbody>

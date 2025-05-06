@@ -110,6 +110,13 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
                 <p><strong>Categoria:</strong> {getCategoryText(vehicle.category)}</p>
                 <p><strong>Combustível:</strong> {getFuelTypeText(vehicle.fuelType)}</p>
                 <p><strong>Cor:</strong> {vehicle.color}</p>
+                <p>
+                  <strong>Valor da Diária:</strong>{' '}
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(Number(vehicle.dailyRate))}
+                </p>
                 {vehicle.additionalFeatures && (
                   <p><strong>Características:</strong> {vehicle.additionalFeatures}</p>
                 )}

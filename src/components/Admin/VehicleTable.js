@@ -16,6 +16,7 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
               <th className="hide-on-small">Cor</th> 
               <th>Ano</th>
               <th>Placa</th>
+              <th>Valor da Diária</th>
               {/* <th>Combustível</th>
               <th>Quilometragem</th>
               <th>Categoria</th> */}
@@ -32,6 +33,12 @@ const VehicleTable = ({ vehicles, vehicleImages, onRemoveVehicle, onRemoveImage 
                 <td className="hide-on-small">{vehicle.color}</td> 
                 <td>{vehicle.year}</td>
                 <td>{vehicle.licensePlate}</td>
+                <td>
+                  {new Intl.NumberFormat('pt-BR', {
+                    style: 'currency',
+                    currency: 'BRL',
+                  }).format(vehicle.dailyRate)}
+                </td>
                 {/* <td>{vehicle.fuelType}</td>
                 <td>{vehicle.mileage}</td>
                 <td>{vehicle.category}</td> */}

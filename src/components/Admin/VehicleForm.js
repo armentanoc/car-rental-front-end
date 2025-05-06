@@ -1,4 +1,25 @@
 import React from 'react';
+import MaskedInput from "react-text-mask"
+import createNumberMask from "text-mask-addons/dist/createNumberMask"
+
+const defaultMaskOptions = {
+  prefix: "R$ ",
+  suffix: "",
+  includeThousandsSeparator: true,
+  thousandsSeparatorSymbol: ".",
+  allowDecimal: true,
+  decimalSymbol: ",",
+  decimalLimit: 2,
+  allowNegative: false,
+  allowLeadingZeroes: false,
+}
+
+const CurrencyInput = ({ value, onValueChange, ...inputProps }) => {
+  const currencyMask = createNumberMask(defaultMaskOptions)
+  return (
+    <MaskedInput {...inputProps} mask={currencyMask} value={value} onChange={(e) => onValueChange(e.target.value)} />
+  )
+}
 
 const VehicleForm = ({ newVehicle, setNewVehicle, onRegisterVehicle }) => {
   return (
@@ -17,6 +38,16 @@ const VehicleForm = ({ newVehicle, setNewVehicle, onRegisterVehicle }) => {
       </select>
       <input type="number" placeholder="Quilometragem" value={newVehicle.mileage} onChange={(e) => setNewVehicle({ ...newVehicle, mileage: e.target.value })} />
       <input type="text" placeholder="Características Adicionais" value={newVehicle.additionalFeatures} onChange={(e) => setNewVehicle({ ...newVehicle, additionalFeatures: e.target.value })} />
+      <CurrencyInput
+        placeholder="Valor da Diária"
+        value={newVehicle.dailyRate}
+        onValueChange={(value) => {
+          setNewVehicle({
+            ...newVehicle,
+            dailyRate: value,
+          })
+        }}
+      />
       <select value={newVehicle.status} onChange={(e) => setNewVehicle({ ...newVehicle, status: e.target.value })}>
         <option value="ACTIVE">Ativo</option>
         <option value="INACTIVE">Inativo</option>

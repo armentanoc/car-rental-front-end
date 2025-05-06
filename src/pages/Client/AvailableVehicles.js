@@ -31,10 +31,10 @@ const AvailableVehicles = () => {
     const result = await fetchAvailableVehicles({
       startDate: new Date(filters.startDate),
       endDate: new Date(filters.endDate),
-      fuelType: filters.fuelType === "ALL" ? null : filters.fuelType,
-      startYear: filters.startYear ? Number.parseInt(filters.startYear) : null,
-      endYear: filters.endYear ? Number.parseInt(filters.endYear) : null,
-      category: filters.category === "ALL" ? null : filters.category,
+      fuelType: filters.fuelType === "ALL" ? undefined : filters.fuelType,
+      startYear: filters.startYear ? Number.parseInt(filters.startYear) : undefined,
+      endYear: filters.endYear ? Number.parseInt(filters.endYear) : undefined,
+      category: filters.category === "ALL" ? undefined : filters.category,
     })
     setVehicles(result)
 

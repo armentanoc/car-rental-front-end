@@ -11,11 +11,11 @@ const ManageUsers = () => {
     name: '',
     email: '',
     username: '',
-    password: null,
+    password: undefined,
     role: 'CLIENT',
   });
   const [editMode, setEditMode] = useState(false);
-  const userFormRef = useRef(null);
+  const userFormRef = useRef(undefined);
 
   const loadUsers = async () => {
     try {
@@ -40,7 +40,7 @@ const ManageUsers = () => {
           alert(message);
         }
 
-        setNewUser({ name: '', email: '', username: '', password: null, role: 'CLIENT' });
+        setNewUser({ name: '', email: '', username: '', password: undefined, role: 'CLIENT' });
         setEditMode(false);
         await loadUsers();
       } catch (err) {
@@ -53,7 +53,7 @@ const ManageUsers = () => {
   };
 
   const handleEditUser = (userToEdit) => {
-    setNewUser({ ...userToEdit, password: null });  
+    setNewUser({ ...userToEdit, password: undefined });  
     setEditMode(true);
     userFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };

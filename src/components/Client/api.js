@@ -3,10 +3,10 @@ const BASE_URL = 'http://localhost:8090';
 const fetchAvailableVehicles = async ({
   startDate = new Date(Date.now() + 60 * 60 * 1000), // 1 hour from now
   endDate = new Date(Date.now() + 60 * 60 * 1000 + 30 * 24 * 60 * 60 * 1000), // +1 month
-  fuelType = null,
-  startYear = null,
-  endYear = null,
-  category = null
+  fuelType = undefined,
+  startYear = undefined,
+  endYear = undefined,
+  category = undefined
 } = {}) => {
   try {
     const requestBody = {

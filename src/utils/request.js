@@ -1,4 +1,4 @@
-export const apiRequest = async (url, method = 'GET', body = null) => {
+export const apiRequest = async (url, method = 'GET', body = undefined) => {
     try {
       const response = await fetch(url, {
         method,
@@ -6,7 +6,7 @@ export const apiRequest = async (url, method = 'GET', body = null) => {
           'Content-Type': 'application/json',
           'Accept': '*/*',
         },
-        body: body ? JSON.stringify(body) : null,
+        body: body ? JSON.stringify(body) : undefined,
       });
   
       const data = await response.json();
