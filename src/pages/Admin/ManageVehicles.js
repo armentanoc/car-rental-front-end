@@ -4,12 +4,16 @@ import { VehicleAPI, ImageAPI } from '../../components/Admin/api';
 import { useAuth } from '../../context/AuthContext';
 import VehicleForm from '../../components/Admin/VehicleForm';
 import VehicleTable from '../../components/Admin/VehicleTable';
+import Pagination from '../../components/Pagination';
 
 const ManageVehicles = () => {
   const { user } = useAuth();
   const [vehicles, setVehicles] = useState([]);
   const [vehicleImages, setVehicleImages] = useState({});
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [newVehicle, setNewVehicle] = useState({
+    name: '',
     model: '',
     brand: '',
     color: '',
@@ -24,10 +28,17 @@ const ManageVehicles = () => {
     category: 'SUV'
   });
 
-  const loadVehicles = async () => {
-    const data = await VehicleAPI.fetchVehicles();
-    setVehicles(data);
-    data.forEach(vehicle => fetchVehicleImages(vehicle.vehicleId));
+  const loadVehicles = async (pageNumber = 0) => {
+    try {
+      const data = await VehicleAPI.fetchVehicles(pageNumber, 20);
+      setVehicles(data.content);
+    data.content.forEach(vehicle => fetchVehicleImages(vehicle.vehicleId));
+      setPage(data.number);
+      setTotalPages(data.totalPages);
+    } catch (err) {
+      console.error('Erro ao buscar veículos:', err);
+      alert('Erro ao buscar veículos.');
+    }
   };
 
   const fetchVehicleImages = async (vehicleId) => {
@@ -56,7 +67,8 @@ const ManageVehicles = () => {
           chassiNumber: '', fuelType: 'GASOLINE', mileage: '', additionalFeatures: '', dailyRate: '',
           status: 'ACTIVE', category: 'SUV'
         });
-        await loadVehicles();
+        setPage(0);
+        await loadVehicles(0);
       } catch (err) {
         console.error(err);
         alert('Erro ao cadastrar veículo.');
@@ -78,13 +90,28 @@ const ManageVehicles = () => {
   };
 
   useEffect(() => {
-    loadVehicles();
-  }, []);
+    loadVehicles(page);
+  }, [page]);
 
   return (
     <div>
-      <VehicleForm newVehicle={newVehicle} setNewVehicle={setNewVehicle} onRegisterVehicle={handleRegisterVehicle} />
-      <VehicleTable vehicles={vehicles} vehicleImages={vehicleImages} onRemoveVehicle={handleRemoveVehicle} />
+      <VehicleForm
+        newVehicle={newVehicle}
+        setNewVehicle={setNewVehicle}
+        onRegisterVehicle={handleRegisterVehicle}
+      />
+
+      <VehicleTable
+        vehicles={vehicles}
+        vehicleImages={vehicleImages}
+        onRemoveVehicle={handleRemoveVehicle}
+      />
+
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
     </div>
   );
 };

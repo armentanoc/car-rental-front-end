@@ -1,12 +1,13 @@
-"use client"
+import { useEffect, useState } from "react";
+import { fetchAvailableVehicles, fetchVehicleImages as fetchVehicleImagesAPI } from "../../components/Client/api";
+import VehicleCardGrid from "../../components/Client/VehicleCardGrid";
+import Pagination from "../../components/Pagination";
 
-import { useEffect, useState } from "react"
-import { fetchAvailableVehicles, fetchVehicleImages } from "../../components/Client/api"
-import VehicleCardGrid from "../../components/Client/VehicleCardGrid"
+const GRID_SIZE = 9;
 
 const AvailableVehicles = () => {
-  const nowPlus1h = new Date(Date.now() + 60 * 60 * 1000)
-  const oneMonthLater = new Date(nowPlus1h.getTime() + 30 * 24 * 60 * 60 * 1000)
+  const nowPlus1h = new Date(Date.now() + 60 * 60 * 1000);
+  const oneMonthLater = new Date(nowPlus1h.getTime() + 30 * 24 * 60 * 60 * 1000);
 
   const [filters, setFilters] = useState({
     startDate: nowPlus1h.toISOString().slice(0, 16),
@@ -15,52 +16,100 @@ const AvailableVehicles = () => {
     startYear: "",
     endYear: "",
     category: "ALL",
-  })
+  });
+  
+  // Keep track of the active filters separately from the form state
+  const [activeFilters, setActiveFilters] = useState({
+    startDate: nowPlus1h.toISOString().slice(0, 16),
+    endDate: oneMonthLater.toISOString().slice(0, 16),
+    fuelType: "ALL",
+    startYear: "",
+    endYear: "",
+    category: "ALL",
+  });
 
-  const [vehicles, setVehicles] = useState([])
-  const [vehicleImages, setVehicleImages] = useState({})
-  const [loading, setLoading] = useState(true)
+  const [vehicles, setVehicles] = useState([]);
+  const [vehicleImages, setVehicleImages] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target
-    setFilters((prev) => ({ ...prev, [name]: value }))
-  }
+  const loadVehicleImages = async (vehicleList) => {
+    try {
+      const imagesMap = {};
+      const imagePromises = vehicleList.map(async (vehicle) => {
+        const images = await fetchVehicleImagesAPI(vehicle.id);
+        imagesMap[vehicle.id] = images;
+      });
 
-  const handleSearch = async () => {
-    setLoading(true)
-    const result = await fetchAvailableVehicles({
-      startDate: new Date(filters.startDate),
-      endDate: new Date(filters.endDate),
-      fuelType: filters.fuelType === "ALL" ? undefined : filters.fuelType,
-      startYear: filters.startYear ? Number.parseInt(filters.startYear) : undefined,
-      endYear: filters.endYear ? Number.parseInt(filters.endYear) : undefined,
-      category: filters.category === "ALL" ? undefined : filters.category,
-    })
-    setVehicles(result)
+      await Promise.all(imagePromises); 
+      setVehicleImages(imagesMap); 
+    } catch (err) {
+      console.error("Erro ao buscar imagens:", err);
+    }
+  };
 
-    const imagesMap = {}
-    await Promise.all(
-      result.map(async (vehicle) => {
-        const images = await fetchVehicleImages(vehicle.id)
-        imagesMap[vehicle.id] = images  
-      })
-    )
+  const fetchVehicles = async (targetPage = 0) => {
+    setLoading(true);
 
-setVehicleImages(imagesMap)
+    const start = new Date(activeFilters.startDate);
+    const end = new Date(activeFilters.endDate);
+    
+    if (isNaN(start.getTime()) || isNaN(end.getTime()) || start >= end) {
+      alert("Datas inválidas. Verifique o período selecionado.");
+      setLoading(false);
+      return;
+    }
 
+    try {
+      const result = await fetchAvailableVehicles({
+        startDate: start,
+        endDate: end,
+        fuelType: activeFilters.fuelType === "ALL" ? undefined : activeFilters.fuelType,
+        category: activeFilters.category === "ALL" ? undefined : activeFilters.category,
+        startYear: activeFilters.startYear ? parseInt(activeFilters.startYear) : undefined,
+        endYear: activeFilters.endYear ? parseInt(activeFilters.endYear) : undefined,
+        page: targetPage,
+        size: GRID_SIZE,
+      });
 
-    setVehicleImages(imagesMap)
-    setLoading(false)
-  }
+      setVehicles(result.content);
+      setTotalPages(result.totalPages);
+      await loadVehicleImages(result.content);
+    } catch (error) {
+      console.error("Erro ao buscar veículos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+  
+  const handleSearch = () => {
+    // Apply the current form filters to the active filters
+    setActiveFilters(filters);
+    setPage(0);
+    fetchVehicles(0);
+  };
+
+  // Only runs on component mount and when page changes
   useEffect(() => {
-    handleSearch()
-  }, [])
+    if (page > 0) {
+      fetchVehicles(page);
+    }
+  }, [page]);
+  
+  // Initial load on component mount
+  useEffect(() => {
+    fetchVehicles(0);
+  }, []);
 
   return (
     <div className="available-vehicles-container">
       <h3>Veículos Disponíveis</h3>
-
       <div className="filter-bar">
         <div className="filter-group">
           <div className="filter-item">
@@ -70,20 +119,25 @@ setVehicleImages(imagesMap)
               type="datetime-local"
               name="startDate"
               value={filters.startDate}
-              onChange={handleChange}
+              onChange={handleFilterChange}
             />
           </div>
-
           <div className="filter-item">
             <label htmlFor="endDate">Fim:</label>
-            <input id="endDate" type="datetime-local" name="endDate" value={filters.endDate} onChange={handleChange} />
+            <input
+              id="endDate"
+              type="datetime-local"
+              name="endDate"
+              value={filters.endDate}
+              onChange={handleFilterChange}
+            />
           </div>
         </div>
 
         <div className="filter-group">
           <div className="filter-item">
             <label htmlFor="fuelType">Combustível:</label>
-            <select id="fuelType" name="fuelType" value={filters.fuelType} onChange={handleChange}>
+            <select id="fuelType" name="fuelType" value={filters.fuelType} onChange={handleFilterChange}>
               <option value="ALL">Todos</option>
               <option value="GASOLINE">Gasolina</option>
               <option value="ETHANOL">Etanol</option>
@@ -93,7 +147,7 @@ setVehicleImages(imagesMap)
 
           <div className="filter-item">
             <label htmlFor="category">Categoria:</label>
-            <select id="category" name="category" value={filters.category} onChange={handleChange}>
+            <select id="category" name="category" value={filters.category} onChange={handleFilterChange}>
               <option value="ALL">Todas</option>
               <option value="MOTORCYCLE">Moto</option>
               <option value="VAN">Van</option>
@@ -108,7 +162,13 @@ setVehicleImages(imagesMap)
         <div className="filter-group">
           <div className="filter-item">
             <label htmlFor="startYear">Ano Inicial:</label>
-            <input id="startYear" type="number" name="startYear" value={filters.startYear} onChange={handleChange} />
+            <input
+              id="startYear"
+              type="number"
+              name="startYear"
+              value={filters.startYear}
+              onChange={handleFilterChange}
+            />
           </div>
 
           <div className="filter-item">
@@ -117,14 +177,17 @@ setVehicleImages(imagesMap)
               id="endYear"
               type="number"
               name="endYear"
-              max={2025}
+              max={new Date().getFullYear()}
               value={filters.endYear}
-              onChange={handleChange}
+              onChange={handleFilterChange}
             />
           </div>
         </div>
 
-        <button className="search-button" onClick={handleSearch}>
+        <button
+          className="search-button"
+          onClick={handleSearch}
+        >
           Buscar
         </button>
       </div>
@@ -133,11 +196,13 @@ setVehicleImages(imagesMap)
         vehicles={vehicles}
         vehicleImages={vehicleImages}
         loading={loading}
-        startDate={filters.startDate}
-        endDate={filters.endDate}
+        startDate={activeFilters.startDate}
+        endDate={activeFilters.endDate}
       />
-    </div>
-  )
-}
 
-export default AvailableVehicles
+      <Pagination page={page} totalPages={totalPages} onPageChange={setPage} />
+    </div>
+  );
+};
+
+export default AvailableVehicles;

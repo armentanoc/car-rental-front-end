@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { UserAPI } from '../../components/Admin/api'; 
+import { UserAPI } from '../../components/Admin/api';
 import { useAuth } from '../../context/AuthContext';
 import UserForm from '../../components/Admin/UserForm';
 import UserTable from '../../components/Admin/UserTable';
+import Pagination from '../../components/Pagination';
 
 const ManageUsers = () => {
   const { user, register } = useAuth();
@@ -16,11 +17,15 @@ const ManageUsers = () => {
   });
   const [editMode, setEditMode] = useState(false);
   const userFormRef = useRef(undefined);
+  const [page, setPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-  const loadUsers = async () => {
+  const loadUsers = async (pageNumber = 0) => {
     try {
-      const data = await UserAPI.fetchUsers();
-      setUsers(data);
+      const data = await UserAPI.fetchUsers(pageNumber, 20);
+      setUsers(data.content);
+      setPage(data.number);
+      setTotalPages(data.totalPages);
     } catch (err) {
       console.error('Erro ao buscar usuários:', err);
       alert('Erro ao buscar usuários.');
@@ -42,7 +47,8 @@ const ManageUsers = () => {
 
         setNewUser({ name: '', email: '', username: '', password: undefined, role: 'CLIENT' });
         setEditMode(false);
-        await loadUsers();
+        setPage(0);
+        await loadUsers(0);
       } catch (err) {
         console.error(err);
         alert(editMode ? 'Erro ao atualizar usuário.' : 'Erro ao cadastrar usuário.');
@@ -53,7 +59,7 @@ const ManageUsers = () => {
   };
 
   const handleEditUser = (userToEdit) => {
-    setNewUser({ ...userToEdit, password: undefined });  
+    setNewUser({ ...userToEdit, password: undefined });
     setEditMode(true);
     userFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
@@ -67,11 +73,11 @@ const ManageUsers = () => {
       console.error('Erro ao remover usuário:', err);
       alert('Erro ao remover usuário.');
     }
-  };  
+  };
 
   useEffect(() => {
-    loadUsers();
-  }, []);
+    loadUsers(page);
+  }, [page]);
 
   return (
     <div>
@@ -88,6 +94,12 @@ const ManageUsers = () => {
         users={users}
         onRemoveUser={handleRemoveUser}
         onEditUser={handleEditUser}
+      />
+
+      <Pagination 
+        page={page} 
+        totalPages={totalPages} 
+        onPageChange={setPage} 
       />
     </div>
   );

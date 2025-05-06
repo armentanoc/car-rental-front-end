@@ -1,64 +1,41 @@
-const BASE_URL = 'http://localhost:8090';
+// src/components/Client/api.js
+import { apiRequest } from '../../utils/request';
 
+const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8090';
+
+// ========== VEHICLE SEARCH API ==========
 const fetchAvailableVehicles = async ({
   startDate = new Date(Date.now() + 60 * 60 * 1000), // 1 hour from now
   endDate = new Date(Date.now() + 60 * 60 * 1000 + 30 * 24 * 60 * 60 * 1000), // +1 month
-  fuelType = undefined,
-  startYear = undefined,
-  endYear = undefined,
-  category = undefined
+  fuelType,
+  startYear,
+  endYear,
+  category,
+  page = 0,
+  size = 10,
 } = {}) => {
   try {
     const requestBody = {
       startDate: startDate.toISOString(),
       endDate: endDate.toISOString(),
-      fuelType,
-      startYear,
-      endYear,
-      category
+      ...(fuelType && { fuelType }),
+      ...(startYear && { startYear }),
+      ...(endYear && { endYear }),
+      ...(category && { category }),
     };
 
-    const response = await fetch(`${BASE_URL}/rentals/available`, {
-      method: 'POST',
-      headers: {
-        'Accept': '*/*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    });
-
-    if (!response.ok) {
-      const responseLog = await response.json();
-      console.error(responseLog.data);
-      throw new Error('Erro ao buscar veículos disponíveis');
-    }
-
-    const availableVehicles = await response.json();
-    return availableVehicles;
+    const queryParams = new URLSearchParams({ page, size }).toString();
+    const response = await apiRequest(`${BASE_URL}/rentals/available?${queryParams}`, 'POST', requestBody);
+    console.log(response)
+    return response; 
   } catch (error) {
-    console.error(error);
-    return [];
+    console.error("fetchAvailableVehicles error:", error);
+    return { content: [], totalPages: 0 };
   }
 };
 
-const fetchVehicleImages = async (vehicleId) => {
-  try {
-    const response = await fetch(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`, {
-      method: 'GET',
-      headers: { 'Accept': '*/*' },
-    });
-
-    const data = await response.json();
-
-    if (Array.isArray(data)) {
-      return data;
-    }
-    return [];
-  } catch (error) {
-    console.error('Error fetching vehicle images:', error);
-    return [];
-  }
-};
+const fetchVehicleImages = (vehicleId) =>
+  apiRequest(`${BASE_URL}/vehicle-images/vehicle/${vehicleId}`);
 
 export {
   fetchAvailableVehicles,

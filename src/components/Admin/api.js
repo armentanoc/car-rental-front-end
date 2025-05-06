@@ -4,11 +4,8 @@ import { apiRequest } from '../../utils/request';
 const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8090';
 
 // ========== USER API ==========
-const fetchUsers = () => apiRequest(`${BASE_URL}/users`);
-
-const removeUser = (userId, adminId) => {
-  if (!adminId) throw new Error('adminId is required');
-  return apiRequest(`${BASE_URL}/users/${userId}`, 'POST', { adminId });
+const fetchUsers = (page = 0, size = 20) => {
+  return apiRequest(`${BASE_URL}/users?page=${page}&size=${size}`);
 };
 
 const updateUser = (userId, userData, adminId) => {
@@ -24,8 +21,15 @@ const updateUser = (userId, userData, adminId) => {
   });
 };
 
+const removeUser = (userId, adminId) => {
+  if (!adminId) throw new Error('adminId is required');
+  return apiRequest(`${BASE_URL}/users/${userId}`, 'POST', { adminId });
+};
+
 // ========== VEHICLE API ==========
-const fetchVehicles = () => apiRequest(`${BASE_URL}/vehicles`);
+
+const fetchVehicles = (page = 0, size = 20) =>
+  apiRequest(`${BASE_URL}/vehicles?page=${page}&size=${size}`);
 
 const registerVehicle = (vehicleData) =>
   apiRequest(`${BASE_URL}/vehicles`, 'POST', vehicleData);
