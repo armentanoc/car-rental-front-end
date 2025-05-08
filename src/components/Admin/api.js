@@ -5,7 +5,7 @@ const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8090';
 
 // ========== USER API ==========
 const fetchUsers = (page = 0, size = 20) => {
-  return apiRequest(`${BASE_URL}/users?page=${page}&size=${size}`);
+  return apiRequest(`${BASE_URL}/users?page=${page}&size=${size}&sort=id,asc`);
 };
 
 const updateUser = (userId, userData, adminId) => {
@@ -29,7 +29,7 @@ const removeUser = (userId, adminId) => {
 // ========== VEHICLE API ==========
 
 const fetchVehicles = (page = 0, size = 20) =>
-  apiRequest(`${BASE_URL}/vehicles?page=${page}&size=${size}`);
+  apiRequest(`${BASE_URL}/vehicles?page=${page}&size=${size}&sort=id,asc`);
 
 const registerVehicle = (vehicleData) =>
   apiRequest(`${BASE_URL}/vehicles`, 'POST', vehicleData);

@@ -1,6 +1,5 @@
-// src/pages/admin/ManageVehicles.js
 import React, { useEffect, useState } from 'react';
-import { VehicleAPI, ImageAPI } from '../../components/Admin/api'; 
+import { VehicleAPI, ImageAPI } from '../../components/Admin/api';
 import { useAuth } from '../../context/AuthContext';
 import VehicleForm from '../../components/Admin/VehicleForm';
 import VehicleTable from '../../components/Admin/VehicleTable';
@@ -12,6 +11,7 @@ const ManageVehicles = () => {
   const [vehicleImages, setVehicleImages] = useState({});
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(false);
   const [newVehicle, setNewVehicle] = useState({
     name: '',
     model: '',
@@ -28,33 +28,47 @@ const ManageVehicles = () => {
     category: 'SUV'
   });
 
-  const loadVehicles = async (pageNumber = 0) => {
-    try {
-      const data = await VehicleAPI.fetchVehicles(pageNumber, 20);
-      setVehicles(data.content);
-    data.content.forEach(vehicle => fetchVehicleImages(vehicle.vehicleId));
-      setPage(data.number);
-      setTotalPages(data.totalPages);
-    } catch (err) {
-      console.error('Erro ao buscar veículos:', err);
-      alert('Erro ao buscar veículos.');
-    }
-  };
-
   const fetchVehicleImages = async (vehicleId) => {
     try {
       const data = await ImageAPI.fetchVehicleImages(vehicleId);
       if (Array.isArray(data)) {
         setVehicleImages(prev => ({ ...prev, [vehicleId]: data }));
+        console.log("Vehicle images:", data)
       }
     } catch (err) {
       console.error('Erro ao buscar imagens:', err);
     }
   };
 
+  const loadVehicles = async (pageNumber = 0) => {
+    setLoading(true);
+    setVehicleImages({}); 
+
+    try {
+      const data = await VehicleAPI.fetchVehicles(pageNumber, 20);
+      setVehicles(data.content);
+      setPage(data.number);
+      setTotalPages(data.totalPages);
+      
+      
+      if (data.content && data.content.length > 0) {
+        data.content.forEach(vehicle => fetchVehicleImages(vehicle.vehicleId));
+      }
+
+      console.log("Loading page:", pageNumber);
+      console.log("Vehicles:", data.content);
+      console.log("Total pages:", data.totalPages);
+
+    } catch (err) {
+      console.error('Erro ao buscar veículos:', err);
+      alert('Erro ao buscar veículos.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleRegisterVehicle = async () => {
     const { model, brand, licensePlate, year, dailyRate} = newVehicle;
-
     if (model && brand && licensePlate && year && dailyRate) {
       try {
         newVehicle.dailyRate = newVehicle.dailyRate
@@ -82,10 +96,21 @@ const ManageVehicles = () => {
     try {
       await VehicleAPI.removeVehicle(vehicleId, user.id);
       setVehicles(prev => prev.filter(v => v.vehicleId !== vehicleId));
+      setVehicleImages(prev => {
+        const newImages = {...prev};
+        delete newImages[vehicleId];
+        return newImages;
+      });
       alert('Veículo removido com sucesso.');
     } catch (err) {
       console.error(err);
       alert('Erro ao remover veículo.');
+    }
+  };
+
+  const handlePageChange = (newPage) => {
+    if (newPage !== page) {
+      setPage(newPage);
     }
   };
 
@@ -100,17 +125,16 @@ const ManageVehicles = () => {
         setNewVehicle={setNewVehicle}
         onRegisterVehicle={handleRegisterVehicle}
       />
-
       <VehicleTable
         vehicles={vehicles}
         vehicleImages={vehicleImages}
         onRemoveVehicle={handleRemoveVehicle}
+        loading={loading}
       />
-
       <Pagination
         page={page}
         totalPages={totalPages}
-        onPageChange={setPage}
+        onPageChange={handlePageChange}
       />
     </div>
   );
