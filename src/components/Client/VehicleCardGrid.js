@@ -40,7 +40,7 @@ const VehicleCardGrid = ({ vehicles, vehicleImages, loading, startDate, endDate 
     const categories = {
       'MOTORCYCLE': 'Moto',
       'VAN': 'Van',
-      'TRUCK': 'Caminhão',
+      'TRUCK': 'Caminhonete',
       'ECONOMY': 'Econômico',
       'LUXURY': 'Luxo',
       'SUV': 'SUV'
