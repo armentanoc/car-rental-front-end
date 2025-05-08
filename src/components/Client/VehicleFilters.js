@@ -43,7 +43,7 @@ const VehicleFilters = ({ filters, onChange, onSearch }) => {
             <option value="ALL">Todas</option>
             <option value="MOTORCYCLE">Moto</option>
             <option value="VAN">Van</option>
-            <option value="TRUCK">Caminhão</option>
+            <option value="TRUCK">Caminhonete</option>
             <option value="ECONOMY">Econômico</option>
             <option value="LUXURY">Luxo</option>
             <option value="SUV">SUV</option>
